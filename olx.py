@@ -49,12 +49,40 @@ def write_to_excel(obj):
         spreadsheetId=spreadsheetId,
         body={
             "valueInputOption": "USER_ENTERED",
+            # "requests": [{
+            #     "appendDimension": {
+            #         "sheetId": 'МЕНЮ2',
+            #         "dimension": "ROWS",
+            #         "length": 3
+            #     }
+            # }],
             "data": [{
                 "range": 'МЕНЮ2!A4:E1000',
                 "majorDimension": "ROWS",
                 "values": values,
             }]
         }).execute()
+categorus = {}
+
+def get_tabs_data(soup):
+    menu_tab = soup.find('ul', id="mondayTab")
+    all_button = menu_tab.find_all('a')
+    for i in all_button:
+         tab_key = i['href'][1:]
+         categorus[tab_key] = [i.text.strip()]
+    return categorus
+
+def pars_food(soup, cat):
+    blcok_food = soup.find('div', id=cat)
+    for rows in blcok_food.find_all('li', class_='dish-item'):
+        image = rows.find('img')['data-original']
+        link = rows.find('a', class_='addtocart')['href']  # .replace('/component/jshopping/cart/add.html?', '')
+        title = re.sub("\"", "", rows.find('h3').text.strip())
+        descr = rows.find('p', class_="dish-consist").text.strip()
+        price = re.sub(" грн", "", rows.find('p', class_="dish-price").text.strip())
+        data = [f'=IMAGE("{image}";1)', f'{title}', f'{descr}', f'{price}',
+                f'https://food.imperialcatering.com.ua{link}']
+        prodcut.append(data)
 
 
 def olx_pars_data(response):
@@ -63,15 +91,23 @@ def olx_pars_data(response):
         print("Нет результата")
         pass
     else:
-        for rows in soup.find_all('li', class_='dish-item'):
-            image = rows.find('img')['data-original']
-            link = rows.find('a', class_='addtocart')['href']#.replace('/component/jshopping/cart/add.html?', '')
-            title = re.sub("\"", "", rows.find('h3').text.strip())
-            descr = rows.find('p', class_="dish-consist").text.strip()
-            price = re.sub(" грн", "", rows.find('p', class_="dish-price").text.strip())
-            data = [f'=IMAGE("{image}";1)', f'{title}', f'{descr}', f'{price}', f'https://food.imperialcatering.com.ua{link}']
-            prodcut.append(data)
+        tab_dict = get_tabs_data(soup)
+        for cat, name in tab_dict.items():
+            prodcut.append(name)
+            pars_food(soup, cat)
+
+
+
+        # for rows in soup.find_all('li', class_='dish-item'):
+        #     image = rows.find('img')['data-original']
+        #     link = rows.find('a', class_='addtocart')['href']#.replace('/component/jshopping/cart/add.html?', '')
+        #     title = re.sub("\"", "", rows.find('h3').text.strip())
+        #     descr = rows.find('p', class_="dish-consist").text.strip()
+        #     price = re.sub(" грн", "", rows.find('p', class_="dish-price").text.strip())
+        #     data = [f'=IMAGE("{image}";1)', f'{title}', f'{descr}', f'{price}', f'https://food.imperialcatering.com.ua{link}']
+        #     prodcut.append(data)
         write_to_excel(prodcut)
+
 
 
 
