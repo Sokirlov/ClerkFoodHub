@@ -49,13 +49,15 @@ def write_to_excel(obj):
         spreadsheetId=spreadsheetId,
         body={
             "valueInputOption": "USER_ENTERED",
-            # "requests": [{
-            #     "appendDimension": {
-            #         "sheetId": 'МЕНЮ2',
-            #         "dimension": "ROWS",
-            #         "length": 3
-            #     }
-            # }],
+            "requests": [
+                {
+                    "appendDimension": {
+                        "sheetId": 'МЕНЮ2',
+                        "dimension": "ROWS",
+                        "length": 13
+                    }
+                }
+            ],
             "data": [{
                 "range": 'МЕНЮ2!A4:E1000',
                 "majorDimension": "ROWS",
