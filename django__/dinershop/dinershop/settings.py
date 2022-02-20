@@ -25,7 +25,7 @@ SECRET_KEY = 'scmr3w$$ibcuw-82+8l=ds*u9_4zz=8fd2^jn)#0&g=ta)o@sx'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['109.86.40.120', '192.168.0.108']
 
 
 # Application definition
@@ -55,7 +55,7 @@ ROOT_URLCONF = 'dinershop.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -114,8 +114,10 @@ USE_L10N = True
 
 USE_TZ = True
 
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+CART_SESSION_ID = 'cart'
