@@ -8,3 +8,8 @@ class FoodAllView(ListView):
     template_name = 'catering/main.html'
     context_object_name = 'foods'
     queryset = CategoryFood.objects.all().prefetch_related('food_set')
+
+    def post(self, request, *args, **kwargs):
+        print(request.POST)
+        return self.get(request, *args, **kwargs)
+
