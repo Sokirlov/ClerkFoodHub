@@ -69,7 +69,7 @@ class Food(models.Model):
 
 
 
-
+# -----------  data_add, user, food, quantity, order_for_day, payer
 class Orders(models.Model):
     data_add = models.DateField(auto_now_add=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Кто заказывал', related_name='client')
