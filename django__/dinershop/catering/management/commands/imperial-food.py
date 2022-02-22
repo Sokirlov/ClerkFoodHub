@@ -3,6 +3,7 @@ from catering.models import Provider, CategoryFood, Food
 import requests
 from bs4 import BeautifulSoup
 import datetime
+import re
 
 
 provider = Provider.objects.get(link='https://food.imperialcatering.com.ua/')
@@ -10,8 +11,30 @@ category = {}
 
 
 class Dishes:
-    def get_tabs_data(self, soup):
+    def pars_food(self, soup, cat, cat_name):
+        # category, title, description, price, buy_link, image, link, id_sort, is_active, date_add, last_update
+        print(cat)
+        blcok_food = soup.find('div', id=cat)
+        prodcut = []
+        category = CategoryFood.objects.get(title=cat_name)
+        for rows in blcok_food.find_all('li', class_='dish-item'):
+            image = rows.find('img')['data-original']
+            link_buy = rows.find('a', class_='addtocart')['href']  # .replace('/component/jshopping/cart/add.html?', '')
+            link = rows.find('a', class_="dish-title")['href']
+            title = re.sub("\"", "", rows.find('h3').text.strip())
+            descr = rows.find('p', class_="dish-consist").text.strip()
+            price = re.sub(" грн", "", rows.find('p', class_="dish-price").text.strip())
+            try:
+                Food.objects.get(category=category, title=title)
+            except:
+                Food.objects.create(category=category, title=title, description=descr, price=price, image=image, buy_link=f'https://food.imperialcatering.com.ua{link_buy}', link=link)
 
+
+            # data = [f'=IMAGE("{image}";1)', f'{title}', f'{descr}', f'{price}',
+            #         f'https://food.imperialcatering.com.ua{link}']
+            # prodcut.append(data)
+
+    def get_tabs_data(self, soup):
         menu_tab = soup.find('ul', id="mondayTab")
         all_button = menu_tab.find_all('a')
         for i in all_button:
@@ -32,8 +55,9 @@ class Dishes:
             soup = BeautifulSoup(response.text, 'html.parser')
         else:
             pass
-
         tab_dict = self.get_tabs_data(self, soup)
+        for category, category_name in tab_dict.items():
+            self.pars_food(self, soup, category, category_name)
         print(tab_dict)
         # for cat, name in tab_dict.items():
         #     prodcut.append(name)

@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% load catering_tags %}
+
+
+{% block title %}{% endblock %}
+{% block header %}{% endblock %}
+{% block content %}
+<div style="width: 90vw; height: 60px;">&nbsp;</div>
+    <form method="post">
+                        {% csrf_token %}
+                        <button class="btn btn-success"><span class="btn_form_text">Отправить заявку</span></button>
+    <div class="accordion" id="accordionFood">
+        {% for food in foods %}
+            {% if food.food_set.all %}
+            <div class="card">
+                <div class="card-header" id="{{ food.identic }}">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link" type="button" data-toggle="collapse"
+                                data-target="#collapse_{{ food.id }}"
+                                aria-expanded="false" aria-controls="collapse_{{ food.id }}">
+                            {{ food }}
+                        </button>
+                    </h2>
+                </div>
+
+                <div id="collapse_{{ food.id }}" class="collapse" aria-labelledby="{{ food.identic }}"
+                     data-parent="#accordionFood">
+                    <div class="card-body">
+
+                            {% for foo in food.food_set.all %}
+                                <div class="row border-bottom my-2">
+                                    <div class="col-sm-2 border-right"> <img src="{{ foo.image }}" width="100px"></div>
+                                    <div class="col-sm-6 border-right"><h4><a href="https://food.imperialcatering.com.ua{{ foo.link }}" target="_blank"> {{ foo.title }}</a> - {{ foo.price }} грн</h4><sub>{{ foo.description }}</sub></div>
+                                    <div class="col">
+                                        <div class="row">
+
+                                            <div class="col-sm">{{ 0|wekdays }}<br /><input type="checkbox" name="{{ foo.title }} - {{ 0|nextdays }}" disabled="disabled"></div>
+                                            <div class="col-sm">{{ 1|wekdays }}<br /><input type="checkbox" name="{{ foo.title }} - {{ 1|nextdays }}"></div>
+                                            <div class="col-sm">{{ 2|wekdays }}<br /><input type="checkbox" name="{{ foo.title }} - {{ 2|nextdays }}"></div>
+                                            <div class="col-sm">{{ 3|wekdays }}<br /><input type="checkbox" name="{{ foo.title }} - {{ 3|nextdays }}"></div>
+                                            <div class="col-sm">{{ 4|wekdays }}<br /><input type="checkbox" name="{{ foo.title }} - {{ 4|nextdays }}"></div>
+                                            <div class="col-sm">{{ 5|wekdays }}<br /><input type="checkbox" name="{{ foo.title }} - {{ 5|nextdays }}"></div>
+                                            <div class="col-sm">{{ 6|wekdays }}<br /><input type="checkbox" name="{{ foo.title }} - {{ 6|nextdays }}"></div>
+{#                                            <div class="col-sm-2">{% now "D" %}<br /><input type="checkbox" name="{{ foo.title }} - Mon"></div>#}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</form>
+
+
+{% endblock %}
+
+
+<div class="accordion" id="accordionFood">
+    <div class="card">
+        <div class="card-header" id="{{ food.identic }}">
+            <h2 class="mb-0">
+                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse_{{food.id}}"
+                        aria-expanded="false" aria-controls="collapse_{{food.id}}">
+                    Collapsible Group Item #1
+                </button>
+            </h2>
+        </div>
+
+        <div id="collapse_{{food.id}}" class="collapse" aria-labelledby="{{ food.identic }}" data-parent="#accordionFood">
+            <div class="card-body">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf
+                moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
+                Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda
+                shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea
+                proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim
+                aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+            </div>
+        </div>
+    </div>
+{#    <div class="card">#}
+{#        <div class="card-header" id="headingTwo">#}
+{#            <h2 class="mb-0">#}
+{#                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo"#}
+{#                        aria-expanded="false" aria-controls="collapseTwo">#}
+{#                    Collapsible Group Item #2#}
+{#                </button>#}
+{#            </h2>#}
+{#        </div>#}
+{#        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">#}
+{#            <div class="card-body">#}
+{#                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf#}
+{#                moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.#}
+{#                Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda#}
+{#                shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea#}
+{#                proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim#}
+{#                aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.#}
+{#            </div>#}
+{#        </div>#}
+    </div>
+</div>
