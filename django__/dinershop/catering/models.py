@@ -73,7 +73,7 @@ class Food(models.Model):
 class Orders(models.Model):
     data_add = models.DateField(auto_now_add=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Кто заказывал', related_name='client')
-    food = models.ForeignKey(Food, on_delete=models.DO_NOTHING, verbose_name='Блюдо')
+    food = models.ManyToManyField(Food, verbose_name='Блюдо')#, on_delete=models.DO_NOTHING, verbose_name='Блюдо')
     quantity = models.PositiveSmallIntegerField('Количество', default=0)
     order_for_day = models.DateField('Заказ на дату')
     payer = models.ForeignKey(User, blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='Плтельщик', related_name='payer')

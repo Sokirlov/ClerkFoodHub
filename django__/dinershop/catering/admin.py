@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Provider, CategoryFood, Food, Orders
+from catering.models import Provider, CategoryFood, Food, Orders
 
 # Register your models here.
 # @admin.register(Author)
@@ -20,13 +20,15 @@ class ProviderAdmin(admin.ModelAdmin):
 @admin.register(Orders)
 # -----------  data_add, user, food, quantity, order_for_day, payer
 class OrdersAdmin(admin.ModelAdmin):
-    list_display = ['order_for_day', 'user', 'food', 'payer']
+    list_display = ['order_for_day', 'user', 'payer']
+    # search_fields = ['food', ]
+    # autocomplete_fields = ['food']
 
 
 @admin.register(Food)
 # ---- category, title, description, price, buy_link, image, link, id_sort, is_active, date_add, last_update
 class FoodAdmin(admin.ModelAdmin):
-    list_display = ['food_image_tag', 'title', 'price', 'category', 'is_active', 'date_add', 'last_update']
+    list_display = ['id', 'food_image_tag', 'title', 'price', 'category', 'is_active', 'date_add', 'last_update']
     list_filter = ['category', 'is_active',]
     readonly_fields = ['food_image_tag', ]
 
