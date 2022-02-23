@@ -45,6 +45,7 @@ class Food(models.Model):
     category = models.ForeignKey(CategoryFood, verbose_name='Категория еды', on_delete=models.DO_NOTHING)
     title = models.CharField('Название еды', max_length=200)
     description = models.TextField(null=True, blank=True)
+    weight = models.PositiveSmallIntegerField('Вес блюда', default=0)
     price = models.DecimalField('Цена', max_digits=6, decimal_places=2)
     buy_link = models.CharField('ссылка добавление\nтовара в корзину', max_length=300, null=True, blank=True)
     image = models.CharField('Картинка', max_length=300, null=True, blank=True)

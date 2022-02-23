@@ -24,6 +24,7 @@ class Dishes:
             title = re.sub("\"", "", rows.find('h3').text.strip())
             descr = rows.find('p', class_="dish-consist").text.strip()
             price = re.sub(" грн", "", rows.find('p', class_="dish-price").text.strip())
+            weight = ""
             try:
                 Food.objects.get(category=category, title=title)
             except:

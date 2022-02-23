@@ -1,7 +1,8 @@
 from django.urls import include, path
 from .views import FoodAllView
+from django.contrib.auth.decorators import login_required
 
 
 urlpatterns = [
-    path('', FoodAllView.as_view(), name='main')
+    path('', login_required(FoodAllView.as_view()), name='main')
 ]

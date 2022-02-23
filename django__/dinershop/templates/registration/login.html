@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Log-in{% endblock %}
+{% block head %}
+
+    <style>
+    .login-form {
+        width: 400px;
+        margin: auto;
+    }
+    form p{
+        display: flex;
+    }
+    p input{
+        flex: 1;
+        margin-left: 10px;
+    }
+    #login_button{
+        margin-left: 0;
+    }
+    #reset_login{
+        width: 400px;
+    margin: auto;
+    }
+    </style>
+{% endblock %}
+{% block content %}
+    <div style="height: 70px"> </div>
+    <h2>Log-in</h2>
+    {% if form.errors %}
+        <p style="text-align: center;">
+            Your username and password didn't match.
+            Please try again.
+        </p>
+    {% else %}
+        <p style="text-align: center;">Please, use the following form to log-in:</p>
+    {% endif %}
+
+    <div class="login-form">
+        <form action="{% url 'login' %}" method="post">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next }}"/>
+            <p><input id="login_button" type="submit" value="Log-in"></p>
+        </form>
+    </div>
+{#<p id="reset_login"><a href="{% url 'password_reset' %}">Lost password?</a> &nbsp; | &nbsp; <a href="{% url 'accounts:signup' %}">Registration</a></p>#}
+{% endblock %}
