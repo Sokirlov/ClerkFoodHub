@@ -48,7 +48,7 @@ class Food(models.Model):
     price = models.DecimalField('Цена', max_digits=6, decimal_places=2)
     buy_link = models.CharField('ссылка добавление\nтовара в корзину', max_length=300, null=True, blank=True)
     image = models.CharField('Картинка', max_length=300, null=True, blank=True)
-    link = models.URLField('Ссылка на товар', null=True, blank=True)
+    link = models.CharField('Ссылка на товар', max_length=300, null=True, blank=True)
     id_sort = models.PositiveSmallIntegerField('Порядок сортировки еды', default=0)
     is_active = models.BooleanField('Активен или нет', default=True, help_text='Когда товар неактивен его нельзя заказать. Значит снят с производства.')
     date_add = models.DateField(auto_now_add=True)

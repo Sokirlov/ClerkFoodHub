@@ -25,9 +25,17 @@ class Dishes:
             descr = rows.find('p', class_="dish-consist").text.strip()
             price = re.sub(" грн", "", rows.find('p', class_="dish-price").text.strip())
             try:
-                Food.objects.get(category=category, title=title)
+                food_valdate = Food.objects.get(category=category, title=title)
+                Food.objects.filter(id=food_valdate.id).update(price=price, is_active=1)
             except:
-                Food.objects.create(category=category, title=title, description=descr, price=price, image=image, buy_link=f'https://food.imperialcatering.com.ua{link_buy}', link=link)
+                Food.objects.create(category=category,
+                                    title=title,
+                                    description=descr,
+                                    price=price,
+                                    image=image,
+                                    buy_link=f'https://food.imperialcatering.com.ua{link_buy}',
+                                    link=link,
+                                    is_active=1)
 
 
             # data = [f'=IMAGE("{image}";1)', f'{title}', f'{descr}', f'{price}',
@@ -35,7 +43,7 @@ class Dishes:
             # prodcut.append(data)
 
     def get_tabs_data(self, soup):
-        menu_tab = soup.find('ul', id="mondayTab")
+        menu_tab = soup.find('ul', {"class": "s-dishes-types-list"})
         all_button = menu_tab.find_all('a')
         for i in all_button:
             title = i.text.strip()
@@ -54,7 +62,7 @@ class Dishes:
         if response:
             soup = BeautifulSoup(response.text, 'html.parser')
         else:
-            pass
+            exit()
         tab_dict = self.get_tabs_data(self, soup)
         for category, category_name in tab_dict.items():
             self.pars_food(self, soup, category, category_name)
@@ -93,6 +101,7 @@ class Dishes:
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
+        Food.objects.filter(category__provider__title='Imperial Food').update(is_active=0)
         page = Dishes.get_pages()
         Dishes.pars_data(Dishes, page)
 

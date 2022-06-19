@@ -1,5 +1,6 @@
 import datetime
 from django.shortcuts import render
+from django.db.models import Prefetch
 from django.contrib.auth.models import User
 from .models import Provider, CategoryFood, Food, Orders
 from django.views.generic import ListView, DetailView
@@ -25,7 +26,8 @@ class FoodAllView(ListView):
     model = CategoryFood
     template_name = 'catering/main.html'
     context_object_name = 'foods'
-    queryset = CategoryFood.objects.all().prefetch_related('food_set')
+    raw_queryset = CategoryFood.objects.all().prefetch_related(Prefetch('food_set', queryset=Food.objects.filter(is_active=1)))
+    queryset = raw_queryset#.filter(food__is_active=1)
 
     def post(self, request, *args, **kwargs):
         form = request.POST
