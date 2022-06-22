@@ -10,18 +10,23 @@
         let goods = {}
         $(document).on('click touchstart', 'input[type="checkbox"]', function(){
             if ($(this).prop("checked") == true) {
+                let item_row= $(this).parent("div").parent("div").parent("div").parent("div")
+                let item_name_raw = item_row.find('h4').text()
+                let item_price = item_name_raw.match('\\d+,\\d+')[0].replace(',','.')
+                console.log()
                 let raw_item = $(this).attr("name")
                 let date = raw_item.match('\\d+\/\\d+\/.+')[0]
                 let item = raw_item.match('^.+ -')[0].replace(' -', '')
                 if (goods[date]){
-                    goods[date].push(item)
+                    goods[date].push({name:item, price:item_price})
                  }else{
-                    goods[date] = [item]
+                    goods[date] = [{name:item, price:item_price}]
                  }
             }else{
                 if ($(this).prop("checked") == false) {
                     let raw_itemd = $(this).attr("name")
                     let loking_item = raw_itemd.toString()
+                    console.log(raw_itemd)
                     $(`input[name="${loking_item}"]`).prop("checked", false)
                     let date = raw_itemd.match('\\d+\/\\d+\/.+')[0]
                     let item = raw_itemd.match('^.+ -')[0].replace(' -', '')
@@ -33,17 +38,21 @@
                  }
             }
             let gd = ''
+            let all_summ = 0
             for(let i in goods){
-                gd += "<h6 class='mt-2 p-1 bg-light border-top'>"
-                gd += i
-                gd += "</h6>"
+                let day_sum = 0
+                let day_order = ''
                 for(let j in goods[i]){
-                    gd += '<input class="chk-food" type="checkbox" name="' + goods[i][j] +' - '+ i +'" checked>  ' + goods[i][j]
-                    gd += "<br>"
-                }
-            }
+                    day_sum += Number(goods[i][j].price)
+                    day_order += '<input class="chk-food" type="checkbox" name="' + goods[i][j].name +' - '+ i +'" value="'+ goods[i][j].price +'" checked>  ' + goods[i][j].name + ' - ' + goods[i][j].price + ' грн<br>'
 
+                }
+                gd += "<h6 class='mt-2 p-1 bg-light border-top'>" + i + " за день <span id='sum-by-day'>"+day_sum+"</span> грн</h6>"
+                gd += day_order
+                all_summ += day_sum
+            }
             $("#cart-goods").html(gd)
+            $("#all_summ").html(all_summ)
         })
     });
 </script>
@@ -104,11 +113,11 @@
     </div>
     <div class="col-2">
     <div id="cart" class="col-2 position-fixed">
-        <p class="h4">Корзина</p>
+        <p class="h4">Корзина -  <span id="all_summ"></span>грн</p>
 
         <div id="cart-goods"></div>
         <hr />
-        <button class="btn btn-success"><span class="btn_form_text">Отправить заявку</span></button>
+        <button class="btn btn-success"><span class="btn_form_text">Замовити</span></button>
     </div>
 </div>
 </form>
