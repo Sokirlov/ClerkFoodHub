@@ -61,7 +61,7 @@
     <div style="height: 60px;">&nbsp;</div>
     <div class="row w-100">
     <div class="col-1">&nbsp;</div>
-    <div class="col">
+    <div class="col mb-4">
         <form>
 
             <div class="accordion" id="accordionFood">
@@ -108,7 +108,7 @@
             {% csrf_token %}
             <div id="cart" class="col-2 position-fixed">
                 <p class="h4">Корзина -  <span id="all_summ"></span>грн</p>
-                <div id="cart-goods"></div>
+                <div id="cart-goods" class="overflow-auto" style="max-height: 65vh;"></div>
                 <hr />
                 <button class="btn btn-success"><span class="btn_form_text">Замовити</span></button>
             </div>
