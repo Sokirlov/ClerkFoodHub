@@ -4,5 +4,6 @@ from .views import FoodAllView
 
 
 urlpatterns = [
-    path('', login_required(FoodAllView.as_view()), name='main')
+    path('', login_required(FoodAllView.as_view()), name='main'),
+    # path()
 ]

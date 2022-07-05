@@ -58,67 +58,63 @@
 </script>
 {% endblock %}
 {% block content %}
-<div style="height: 60px;">&nbsp;</div>
-<form method="post">
+    <div style="height: 60px;">&nbsp;</div>
     <div class="row w-100">
     <div class="col-1">&nbsp;</div>
     <div class="col">
-        {% csrf_token %}
-        <div class="accordion" id="accordionFood">
-            {% for food in foods %}
-                {% if food.food_set.all %}
-                <div class="card">
-                    <div class="card-header" id="{{ food.identic }}">
-                        <h2 class="mb-0">
-                            <button class="btn btn-link" type="button" data-toggle="collapse"
-                                    data-target="#collapse_{{ food.id }}"
-                                    aria-expanded="false" aria-controls="collapse_{{ food.id }}">
-                                {{ food }}
-                            </button>
-                        </h2>
-                    </div>
+        <form>
 
-                    <div id="collapse_{{ food.id }}" class="collapse" aria-labelledby="{{ food.identic }}"
-                         data-parent="#accordionFood">
-                        <div class="card-body">
-
-                                {% for foo in food.food_set.all %}
-                                    <div class="row border-bottom my-2">
-                                        <div class="col-sm-2 border-right"> <img src="{{ foo.image }}" width="100px"></div>
-                                        <div class="col-sm-6 border-right"><h4><a href="https://food.imperialcatering.com.ua{{ foo.link }}" target="_blank"> {{ foo.title }}</a> - {{ foo.price }} грн</h4><sub>{{ foo.description }}</sub></div>
-                                        <div class="col">
-                                            <div class="row">
-
-                                                <div class="col-sm">{{ 0|wekdays }}<br /><input class="chk-food" type="checkbox" name="{{ foo.title }} - {{ 0|nextdays }}" disabled="disabled"></div>
-                                                <div class="col-sm">{{ 1|wekdays }}<br /><input class="chk-food" type="checkbox" name="{{ foo.title }} - {{ 1|nextdays }}"></div>
-                                                <div class="col-sm">{{ 2|wekdays }}<br /><input class="chk-food" type="checkbox" name="{{ foo.title }} - {{ 2|nextdays }}"></div>
-                                                <div class="col-sm">{{ 3|wekdays }}<br /><input class="chk-food" type="checkbox" name="{{ foo.title }} - {{ 3|nextdays }}"></div>
-                                                <div class="col-sm">{{ 4|wekdays }}<br /><input class="chk-food" type="checkbox" name="{{ foo.title }} - {{ 4|nextdays }}"></div>
-                                                <div class="col-sm">{{ 5|wekdays }}<br /><input class="chk-food" type="checkbox" name="{{ foo.title }} - {{ 5|nextdays }}"></div>
-                                                <div class="col-sm">{{ 6|wekdays }}<br /><input class="chk-food" type="checkbox" name="{{ foo.title }} - {{ 6|nextdays }}"></div>
-    {#                                            <div class="col-sm-2">{% now "D" %}<br /><input type="checkbox" name="{{ foo.title }} - Mon"></div>#}
-
+            <div class="accordion" id="accordionFood">
+                {% for food in foods %}
+                    {% if food.food_set.all %}
+                        <div class="card">
+                            <div class="card-header" id="{{ food.identic }}">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse_{{ food.id }}" aria-expanded="false" aria-controls="collapse_{{ food.id }}">
+                                        {{ food }}
+                                    </button>
+                                </h2>
+                            </div>
+                            <div id="collapse_{{ food.id }}" class="collapse" aria-labelledby="{{ food.identic }}" data-parent="#accordionFood">
+                                <div class="card-body">
+                                    {% for foo in food.food_set.all %}
+                                        <div class="row border-bottom my-2">
+                                            <div class="col-sm-2 border-right"> <img src="{{ foo.image }}" width="100px"></div>
+                                            <div class="col-sm-6 border-right"><h4><a href="https://food.imperialcatering.com.ua{{ foo.link }}" target="_blank"> {{ foo.title }}</a> - {{ foo.price }} грн</h4><sub>{{ foo.description }}</sub></div>
+                                            <div class="col">
+                                                <div class="row">
+                                                    <div class="col-sm">{{ 0|wekdays }}<br /><input class="chk-food" type="checkbox" name="{{ foo.title }} - {{ 0|nextdays }}" disabled="disabled"></div>
+                                                    <div class="col-sm">{{ 1|wekdays }}<br /><input class="chk-food" type="checkbox" name="{{ foo.title }} - {{ 1|nextdays }}"></div>
+                                                    <div class="col-sm">{{ 2|wekdays }}<br /><input class="chk-food" type="checkbox" name="{{ foo.title }} - {{ 2|nextdays }}"></div>
+                                                    <div class="col-sm">{{ 3|wekdays }}<br /><input class="chk-food" type="checkbox" name="{{ foo.title }} - {{ 3|nextdays }}"></div>
+                                                    <div class="col-sm">{{ 4|wekdays }}<br /><input class="chk-food" type="checkbox" name="{{ foo.title }} - {{ 4|nextdays }}"></div>
+                                                    <div class="col-sm">{{ 5|wekdays }}<br /><input class="chk-food" type="checkbox" name="{{ foo.title }} - {{ 5|nextdays }}"></div>
+                                                    <div class="col-sm">{{ 6|wekdays }}<br /><input class="chk-food" type="checkbox" name="{{ foo.title }} - {{ 6|nextdays }}"></div>
+                                                    {#                                            <div class="col-sm-2">{% now "D" %}<br /><input type="checkbox" name="{{ foo.title }} - Mon"></div>#}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                {% endfor %}
-
+                                    {% endfor %}
+                                </div>
                             </div>
                         </div>
-                    </div>
                     {% endif %}
                 {% endfor %}
             </div>
-
+        </form>
     </div>
     <div class="col-2">
-    <div id="cart" class="col-2 position-fixed">
-        <p class="h4">Корзина -  <span id="all_summ"></span>грн</p>
-
-        <div id="cart-goods"></div>
-        <hr />
-        <button class="btn btn-success"><span class="btn_form_text">Замовити</span></button>
+        <form method="post">
+            {% csrf_token %}
+            <div id="cart" class="col-2 position-fixed">
+                <p class="h4">Корзина -  <span id="all_summ"></span>грн</p>
+                <div id="cart-goods"></div>
+                <hr />
+                <button class="btn btn-success"><span class="btn_form_text">Замовити</span></button>
+            </div>
+        </form>
     </div>
-</div>
-</form>
 {% endblock %}
+
+
+

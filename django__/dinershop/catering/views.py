@@ -27,7 +27,7 @@ class FoodAllView(ListView):
     template_name = 'catering/main.html'
     context_object_name = 'foods'
     raw_queryset = CategoryFood.objects.all().prefetch_related(Prefetch('food_set', queryset=Food.objects.filter(is_active=1)))
-    queryset = raw_queryset#.filter(food__is_active=1)
+    queryset = raw_queryset
 
     def post(self, request, *args, **kwargs):
         form = request.POST
@@ -40,8 +40,8 @@ class FoodAllView(ListView):
                 new_order = Orders.objects.create(user=user, quantity=1, order_for_day=order_date)
                 for dish in order:
                     new_order.food.add(dish)
-
-
-                # print(order[0], order_date, type(order_date))
         return self.get(request, *args, **kwargs)
 
+class ReadyToOrdered(ListView):
+    model = Orders
+    queryset = Orders.objects.filter(order_for_day__gte=datetime.datetime.today())
