@@ -1,0 +1,23 @@
+git clone https://github.com/Sokirlov/ImperialFoodPars.git
+cd ImperialFoodPars
+python -m venv venv
+venv\scripts\activate
+pip install -r req.txt
+cd django__\dinershop
+
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser
+(заполнить поля суперпользователя)
+
+python manage.py runserver
+( зайти в админку по адресу http://127.0.0.1:8000/admin в раздел Поставщики
+  Добавить поставщика 
+  - Название поставщика: Imperial Food
+  - Ссылка на поставщика: https://food.imperialcatering.com.ua/)
+
+в консоле остановить сервер командой ctrl+c
+
+python manage.py imperial-food
+
+python manage.py runserver

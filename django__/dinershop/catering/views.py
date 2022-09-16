@@ -10,9 +10,10 @@ def make_food_set(form):
     order = {}
     for i in form:
         if i != 'csrfmiddlewaretoken':
+            # print(f'i - {i}')
             order_dish_date = i.split(' - ')
-            order_date = order_dish_date[1]
-            order_dish = Food.objects.get(title=order_dish_date[0])
+            order_date = order_dish_date[2]
+            order_dish = Food.objects.get(id=order_dish_date[0])
             try:
                 order_key = order[order_date]
                 order_key.append(order_dish)
@@ -34,14 +35,19 @@ class FoodAllView(ListView):
         user_raw = request.user.username
         user = User.objects.get(username=user_raw)
         order_list = make_food_set(form)
-        print(user, order_list)
         for key, order in order_list.items():
-                order_date = datetime.datetime.strptime(key, '%d/%m/%Y %H:%M')
-                new_order = Orders.objects.create(user=user, quantity=1, order_for_day=order_date)
-                for dish in order:
-                    new_order.food.add(dish)
+            order_date = datetime.datetime.strptime(key, '%d/%m/%Y %H:%M')
+            new_order = Orders.objects.create(user=user, quantity=1, order_for_day=order_date)
+            for dish in order:
+                new_order.food.add(dish)
         return self.get(request, *args, **kwargs)
+
+
 
 class ReadyToOrdered(ListView):
     model = Orders
-    queryset = Orders.objects.filter(order_for_day__gte=datetime.datetime.today())
+    queryset = Orders.objects.filter(order_for_day__lte=datetime.datetime.today())
+    template_name = 'catering/order_cart.html'
+    context_object_name = 'dishes'
+    def show(self):
+        print(self.queryset)

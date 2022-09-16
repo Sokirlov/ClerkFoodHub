@@ -1,0 +1,17 @@
+{% extends 'base.html'  %}
+
+{% block content %}
+    {% for dish in dishes %}
+        <div>
+        <h4>{{ dish.order_for_day }}</h4>
+            <ul>
+            {% for d in dish.food.all %}
+                <li>{{ d }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+
+        - {{ dish.user }} - {{ dish.payer }}
+
+    {% endfor %}
+{% endblock %}
