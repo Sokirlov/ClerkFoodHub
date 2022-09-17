@@ -1,8 +1,10 @@
 import datetime
+from typing import Dict, Any
+
 from django.shortcuts import render
 from django.db.models import Prefetch
 from django.contrib.auth.models import User
-from .models import Provider, CategoryFood, Food, Orders
+from catering.models import Provider, CategoryFood, Food, Orders
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
@@ -45,9 +47,26 @@ class FoodAllView(ListView):
 
 
 class ReadyToOrdered(ListView):
+    def sorting_by_day(orders):
+        new_list: dict[str, Any] = dict()
+        for ord in orders:
+            try:
+                foodlist = new_list[str(ord.order_for_day)]
+                for i in ord.food.all():
+                    if i in foodlist:
+                        foodlist[i]['quantity'] += 1
+                    else:
+                        foodlist[i] = i.__dict__
+                        foodlist[i]['quantity'] = 1
+            except:
+                foodlist = dict()
+                for i in ord.food.all():
+                    foodlist[i] = i.__dict__
+                    foodlist[i]['quantity'] = 1
+                new_list[str(ord.order_for_day)] = foodlist
+        return new_list
     model = Orders
-    queryset = Orders.objects.filter(order_for_day__lte=datetime.datetime.today())
+    future_orders = Orders.objects.filter(order_for_day__gte=datetime.datetime.today())
+    queryset = sorting_by_day(future_orders)
     template_name = 'catering/order_cart.html'
     context_object_name = 'dishes'
-    def show(self):
-        print(self.queryset)

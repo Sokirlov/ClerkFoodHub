@@ -69,13 +69,13 @@
                 {% for food in foods %}
                     {% if food.food_set.all %}
                         <div class="card">
-                            <div class="card-header" id="{{ food.identic }}">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse_{{ food.id }}" aria-expanded="false" aria-controls="collapse_{{ food.id }}">
+                            <button class="btn btn-link text-left" type="button" data-toggle="collapse" data-target="#collapse_{{ food.id }}" aria-expanded="false" aria-controls="collapse_{{ food.id }}">
+                                <div class="card-header" id="{{ food.identic }}">
+                                    <h2 class="mb-0">
                                         {{ food }}
-                                    </button>
-                                </h2>
-                            </div>
+                                    </h2>
+                                </div>
+                            </button>
                             <div id="collapse_{{ food.id }}" class="collapse" aria-labelledby="{{ food.identic }}" data-parent="#accordionFood">
                                 <div class="card-body">
                                     {% for foo in food.food_set.all %}
@@ -99,6 +99,7 @@
                                 </div>
                             </div>
                         </div>
+
                     {% endif %}
                 {% endfor %}
             </div>

@@ -5,8 +5,11 @@ from bs4 import BeautifulSoup
 import datetime
 import re
 
-
-provider = Provider.objects.get(link='https://food.imperialcatering.com.ua/')
+try:
+    provider = Provider.objects.get(link='https://food.imperialcatering.com.ua/')
+except:
+    Provider.objects.create(title='Imperial Food', link='https://food.imperialcatering.com.ua/')
+    provider = Provider.objects.get(link='https://food.imperialcatering.com.ua/')
 category = {}
 
 
@@ -104,8 +107,3 @@ class Command(BaseCommand):
         Food.objects.filter(category__provider__title='Imperial Food').update(is_active=0)
         page = Dishes.get_pages()
         Dishes.pars_data(Dishes, page)
-
-
-# if __name__ == '__main__':
-#     page = Dishes.get_pages()
-#     Dishes.pars_data(Dishes, page)
