@@ -20,7 +20,7 @@ class ProviderAdmin(admin.ModelAdmin):
 @admin.register(Orders)
 # -----------  data_add, user, food, quantity, order_for_day, payer
 class OrdersAdmin(admin.ModelAdmin):
-    list_display = ['order_for_day', 'user', 'payer']
+    list_display = ['id', 'order_for_day', 'payer']
     # search_fields = ['food', ]
     # autocomplete_fields = ['food']
 

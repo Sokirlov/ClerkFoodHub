@@ -3,10 +3,11 @@ from typing import Dict, Any
 
 from django.shortcuts import render
 from django.db.models import Prefetch
-from django.contrib.auth.models import User
-from catering.models import Provider, CategoryFood, Food, Orders
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.contrib.auth.models import User
+from catering.models import Provider, CategoryFood, Food, Orders
+# from clients.models import Worker
 
 def make_food_set(form):
     order = {}
@@ -25,24 +26,24 @@ def make_food_set(form):
     return order
 
 
-class FoodAllView(ListView):
-    model = CategoryFood
-    template_name = 'catering/main.html'
-    context_object_name = 'foods'
-    raw_queryset = CategoryFood.objects.all().prefetch_related(Prefetch('food_set', queryset=Food.objects.filter(is_active=1)))
-    queryset = raw_queryset
-
-    def post(self, request, *args, **kwargs):
-        form = request.POST
-        user_raw = request.user.username
-        user = User.objects.get(username=user_raw)
-        order_list = make_food_set(form)
-        for key, order in order_list.items():
-            order_date = datetime.datetime.strptime(key, '%d/%m/%Y %H:%M')
-            new_order = Orders.objects.create(user=user, quantity=1, order_for_day=order_date)
-            for dish in order:
-                new_order.food.add(dish)
-        return self.get(request, *args, **kwargs)
+# class FoodAllView(ListView):
+#     model = CategoryFood
+#     template_name = 'catering/main.html'
+#     context_object_name = 'foods'
+#     raw_queryset = CategoryFood.objects.all().prefetch_related(Prefetch('food_set', queryset=Food.objects.filter(is_active=1)))
+#     queryset = raw_queryset
+#
+#     def post(self, request, *args, **kwargs):
+#         form = request.POST
+#         user_raw = request.user.username
+#         user = Worker.objects.get(username=user_raw)
+#         order_list = make_food_set(form)
+#         for key, order in order_list.items():
+#             order_date = datetime.datetime.strptime(key, '%d/%m/%Y %H:%M')
+#             new_order = Orders.objects.create(user=user, quantity=1, order_for_day=order_date)
+#             for dish in order:
+#                 new_order.food.add(dish)
+#         return self.get(request, *args, **kwargs)
 
 
 
