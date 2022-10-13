@@ -2,9 +2,9 @@ from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
-from site_settings.models import District, Region
+from site_settings.models import District
 # from clients.models import Worker
-from users.models import CustomUser
+
 
 
 # --- ------------------ It`s model of providers food to collect food by providers
@@ -14,7 +14,7 @@ class Provider(models.Model):
     id_sort = models.PositiveSmallIntegerField('Сортування', default=0)
     date_add = models.DateField(auto_now_add=True)
     min_order = models.PositiveSmallIntegerField('Мінімальне замовлення', default=0)
-    district = models.ManyToManyField(District, verbose_name='Обслуговування')
+    district = models.ManyToManyField(District, verbose_name='Обслуговування', null=True, blank=True)
 
     class Meta:
         ordering = ['id_sort']
@@ -75,24 +75,3 @@ class Food(models.Model):
 
     def __str__(self):
         return f"{self.title}"
-
-
-
-# -----------  data_add, user, food, quantity, order_for_day, payer
-class Orders(models.Model):
-    data_add = models.DateField(auto_now_add=True)
-    user = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING, verbose_name='Кто заказывал', related_name='client')
-    food = models.ManyToManyField(Food, verbose_name='Блюдо')#, on_delete=models.DO_NOTHING, verbose_name='Блюдо')
-    quantity = models.PositiveSmallIntegerField('Количество', default=0)
-    order_for_day = models.DateField('Заказ на дату')
-    payer = models.ForeignKey(CustomUser, blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='Плтельщик', related_name='payer')
-
-    class Meta:
-        ordering = ['-order_for_day', '-data_add']
-        verbose_name = 'Заказ'
-        verbose_name_plural ='Заказы'
-
-
-    def __str__(self):
-        return f'{self.order_for_day} {self.user}'
-

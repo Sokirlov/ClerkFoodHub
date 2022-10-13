@@ -6,8 +6,8 @@ from django.db.models import Prefetch
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.models import User
-from catering.models import Provider, CategoryFood, Food, Orders
-# from clients.models import Worker
+from catering.models import Provider, CategoryFood, Food
+
 
 def make_food_set(form):
     order = {}

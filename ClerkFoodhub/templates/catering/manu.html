@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% load catering_tags %}
+
+
+
+{% block title %}{% endblock %}
+{% block header %}
+<script>
+    $(function() {
+        let goods = {}
+        let raw_item
+        let split_data
+        let id
+        let date
+        let item
+        $(document).on('click touchstart', 'input[type="checkbox"]', function(){
+            if ($(this).prop("checked") == true) {
+                let item_row= $(this).parent("div").parent("div").parent("div").parent("div")
+                let item_name_raw = item_row.find('h4').text()
+                let item_price = item_name_raw.match('\\d+,\\d+')[0].replace(',','.')
+                raw_item = $(this).attr("name")
+                split_data = raw_item.match(/^(\d+)(\W+)(\d.+)/)
+                id = split_data[1]
+                date =split_data[3]
+                item = split_data[2].replace(/ - /g, '')
+                if (goods[date]){
+                    goods[date].push({name:item, price:item_price, id:id, fulldata:raw_item})
+                 }else{
+                    goods[date] = [{name:item, price:item_price, id:id, fulldata:raw_item}]
+                 }
+            }else{
+                if ($(this).prop("checked") == false) {
+                    let raw_itemd = $(this).attr("name")
+                    let loking_item = raw_itemd.toString()
+                    $(`input[name="${loking_item}"]`).prop("checked", false)
+                    let num_item = goods[date].indexOf(item)
+                    goods[date].splice(num_item, 1)
+                    if(!goods[date].length){
+                        delete goods[date]
+                    }
+                 }
+            }
+            let gd = ''
+            let all_summ = 0
+            for(let i in goods){
+                let day_sum = 0
+                let day_order = ''
+                for(let j in goods[i]){
+                    day_sum += Number(goods[i][j].price)
+                    day_order += '<input class="chk-food" type="checkbox" name="'+goods[i][j].fulldata+'" value="'+ goods[i][j].price +'" checked>  ' + goods[i][j].name + ' ' + goods[i][j].price + ' грн<br>'
+                }
+                gd += "<h6 class='mt-2 p-1 bg-light border-top'>" + i + " за день <span id='sum-by-day'>"+day_sum+"</span> грн</h6>"
+                gd += day_order
+                all_summ += day_sum
+            }
+            $("#cart-goods").html(gd)
+            $("#all_summ").html(all_summ)
+        })
+    });
+</script>
+{% endblock %}
+{% block content %}
+    <div style="height: 60px;">&nbsp;</div>
+    <div class="row w-100">
+    <div class="col-1">&nbsp;</div>
+{#    <div class="col mb-4">#}
+{#        <form>#}
+{#            <div class="accordion" id="accordionFood">#}
+{#                {% for food in pviders %}#}
+{#                    {% if food.food_set.all %}#}
+{#                        <div class="card">#}
+{#                            <button class="btn btn-link text-left" type="button" data-toggle="collapse" data-target="#collapse_{{ food.id }}" aria-expanded="false" aria-controls="collapse_{{ food.id }}">#}
+{#                                <div class="card-header" id="{{ food.identic }}">#}
+{#                                    <h2 class="mb-0">#}
+{#                                        {{ food }}#}
+{#                                    </h2>#}
+{#                                </div>#}
+{#                            </button>#}
+{#                            <div id="collapse_{{ food.id }}" class="collapse" aria-labelledby="{{ food.identic }}" data-parent="#accordionFood">#}
+{#                                <div class="card-body">#}
+{#                                    {% for foo in food.food_set.all %}#}
+{#                                        <div class="row border-bottom my-2">#}
+{#                                            <div class="col-sm-2 border-right"> <img src="{{ foo.image }}" width="100px"></div>#}
+{#                                            <div class="col-sm-6 border-right"><h4><a href="https://food.imperialcatering.com.ua{{ foo.link }}" target="_blank"> {{ foo.title }}</a> - {{ foo.price }} грн</h4><sub>{{ foo.description }}</sub></div>#}
+{#                                            <div class="col">#}
+{#                                                <div class="row">#}
+{#                                                    <div class="col-sm">{{ 0|wekdays }}<br /><input class="chk-food" type="checkbox" name="{{ foo.id }} - {{ foo.title }} - {{ 0|nextdays }}" disabled="disabled"></div>#}
+{#                                                    <div class="col-sm">{{ 1|wekdays }}<br /><input class="chk-food" type="checkbox" name="{{ foo.id }} - {{ foo.title }} - {{ 1|nextdays }}"></div>#}
+{#                                                    <div class="col-sm">{{ 2|wekdays }}<br /><input class="chk-food" type="checkbox" name="{{ foo.id }} - {{ foo.title }} - {{ 2|nextdays }}"></div>#}
+{#                                                    <div class="col-sm">{{ 3|wekdays }}<br /><input class="chk-food" type="checkbox" name="{{ foo.id }} - {{ foo.title }} - {{ 3|nextdays }}"></div>#}
+{#                                                    <div class="col-sm">{{ 4|wekdays }}<br /><input class="chk-food" type="checkbox" name="{{ foo.id }} - {{ foo.title }} - {{ 4|nextdays }}"></div>#}
+{#                                                    <div class="col-sm">{{ 5|wekdays }}<br /><input class="chk-food" type="checkbox" name="{{ foo.id }} - {{ foo.title }} - {{ 5|nextdays }}"></div>#}
+{#                                                    <div class="col-sm">{{ 6|wekdays }}<br /><input class="chk-food" type="checkbox" name="{{ foo.id }} - {{ foo.title }} - {{ 6|nextdays }}"></div>#}
+                                                    {#                                            <div class="col-sm-2">{% now "D" %}<br /><input type="checkbox" name="{{ foo.title }} - Mon"></div>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    {% endfor %}#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{##}
+{#                    {% endif %}#}
+{#                {% endfor %}#}
+{#            </div>#}
+{#        </form>#}
+{#    </div>#}
+{#    <div class="col-2">#}
+{#        <form method="post">#}
+{#            {% csrf_token %}#}
+{#            <div id="cart" class="col-2 position-fixed">#}
+{#                <p class="h4">Корзина -  <span id="all_summ"></span>грн</p>#}
+{#                <div id="cart-goods" class="overflow-auto" style="max-height: 65vh;"></div>#}
+{#                <hr />#}
+{#                <button class="btn btn-success"><span class="btn_form_text">Замовити</span></button>#}
+{#            </div>#}
+{#        </form>#}
+{#    </div>#}
+    {% for provider in providers %}
+        <div class="ml-5">
+            <h1 style="text-decoration: underline; text-transform: uppercase;">{{ provider }}</h1>
+
+            {% for cat in provider.categoryfood_set.all %}
+                <div class="w-75"><h2>{{ cat.id }} - {{ cat }}</h2>
+                {% for foo in cat.food_set.all %}
+                {{ foo }}, &nbsp;
+                {% endfor %}
+
+
+                </div>
+            {% endfor %}
+</div>
+
+    {% endfor %}
+
+
+
+{% endblock %}
+
+
+
