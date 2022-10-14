@@ -10,7 +10,6 @@ class Company(models.Model):
     adress = models.CharField('Адреса', max_length=500, null=True, blank=True, help_text='(Поки що чисто для статистики. Моливо будемо автоматично форму заповняти)')
     # superuser = models.ForeignKey(Worker, verbose_name='Супер користувач', on_delete=models.DO_NOTHING)
     # date_add = models.DateTimeField('Дата створення', auto_now_add=True)
-
     class Meta:
         ordering = ['title']
         verbose_name = 'Компанія'
@@ -21,7 +20,7 @@ class Company(models.Model):
 
 
 class Departament(models.Model):
-    company = models.ForeignKey(Company, verbose_name='Назва Компанії', on_delete=models.DO_NOTHING)
+    company = models.ForeignKey(Company, verbose_name='Назва Компанії', on_delete=models.DO_NOTHING, related_name='organization')
     title = models.CharField('Відділ', max_length=500)
     date_add = models.DateTimeField('Дата створення', auto_now_add=True)
     ordering = models.PositiveSmallIntegerField('Сортування', default=0)
@@ -37,8 +36,7 @@ class Departament(models.Model):
 
 
 class CustomUser(AbstractUser):
-    departament = models.ForeignKey(Departament, verbose_name='Відділ', on_delete=models.DO_NOTHING, blank=True, null=True)
-
+    departament = models.ForeignKey(Departament, verbose_name='Відділ', on_delete=models.DO_NOTHING, related_name='departament', blank=True, null=True)
     job_title = models.CharField('Посада', max_length=500, null=True, blank=True)
     phone = models.CharField('Телефон', max_length=20, null=True, blank=True)
     avatar = models.ImageField('', null=True, blank=True)
@@ -60,5 +58,5 @@ class CustomUser(AbstractUser):
         verbose_name = 'Співробітник'
         verbose_name_plural = '2. Співробітники'
 
-    # def __str__(self):
-    #     return f"{self.id}"
+    def __str__(self):
+        return f"{self.first_name +' '+ self.last_name}"

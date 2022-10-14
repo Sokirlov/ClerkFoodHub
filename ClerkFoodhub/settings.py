@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'catering',
     'site_settings',
     'cart',
-    'users.apps.UsersConfig'
+    'users.apps.UsersConfig',
+    'rest_framework',
 ]
 AUTH_USER_MODEL = 'users.CustomUser'
 MIDDLEWARE = [

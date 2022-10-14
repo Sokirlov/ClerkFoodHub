@@ -23,6 +23,6 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name='index.html'), name="home"),
     path('admin/', admin.site.urls),
     # path('catering/', include('catering.urls')),
-    path('catering/', include('cart.urls')),
+    path('ct/', include('cart.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

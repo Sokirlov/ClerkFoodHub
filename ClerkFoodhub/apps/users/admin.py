@@ -40,7 +40,7 @@ class CustomUserAdmin(UserAdmin):
 
         ('Додатковы iнфа', {'fields': ('departament', 'first_name', 'last_name', 'email', 'phone', ('avatar_image_tag', 'avatar'), 'ordering', 'last_login',)}),
         ('Співробітник',
-         {'fields': ('username', 'password',  'date_joined', ('is_active', 'is_staff'),)}),
+         {'fields': ('username', 'password',  'date_joined', ('is_active', 'is_staff', 'is_superuser',), 'user_permissions', )}),
 
     )
 

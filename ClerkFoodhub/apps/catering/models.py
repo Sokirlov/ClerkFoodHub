@@ -9,6 +9,9 @@ from site_settings.models import District
 
 # --- ------------------ It`s model of providers food to collect food by providers
 class Provider(models.Model):
+    """
+        "title", "link", "id_sort", "date_add", "min_order", "district",
+    """
     title = models.CharField('Назва кейтерінгу', max_length=200)
     link = models.URLField('Посилання')
     id_sort = models.PositiveSmallIntegerField('Сортування', default=0)
@@ -28,7 +31,11 @@ class Provider(models.Model):
 # --- ------------------ It`s model of category food by providers
 # --- provider, title, identic, link, id_sort, (date_add)
 class CategoryFood(models.Model):
-    provider = models.ForeignKey(Provider, verbose_name='Кейтерінг', on_delete=models.DO_NOTHING)
+    """
+    "provider", "title", "identic", "link", "id_sort", "date_add"
+    """
+
+    provider = models.ForeignKey(Provider, verbose_name='Кейтерінг', related_name='categorysfoods', on_delete=models.DO_NOTHING )
     title = models.CharField('Категорія страви', max_length=200)
     identic = models.CharField('ID категорії', max_length=300, null=True, blank=True)
     link = models.URLField('Посилання  категорії', null=True, blank=True)
@@ -48,10 +55,11 @@ class CategoryFood(models.Model):
 class Food(models.Model):
     """
     It`s model of food by category
-    category, title, description, price, buy_link, image, link, id_sort, is_active, date_add, last_update
+    "category", "title", "description", "price", "buy_link", "image", "link", "id_sort", "is_active", "date_add", "last_update"
+
     """
 
-    category = models.ForeignKey(CategoryFood, on_delete=models.DO_NOTHING, verbose_name='Категорія страви')
+    category = models.ForeignKey(CategoryFood, on_delete=models.DO_NOTHING, related_name='foods', verbose_name='Категорія страви')
     title = models.CharField('Страва', max_length=200)
     description = models.TextField('Інгрідієнти', null=True, blank=True)
     price = models.DecimalField('Ціна', max_digits=6, decimal_places=2)

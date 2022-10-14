@@ -5,8 +5,59 @@ from django.shortcuts import render
 from django.db.models import Prefetch
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from rest_framework import viewsets
+from rest_framework import generics
+from rest_framework import permissions
 from django.contrib.auth.models import User
 from catering.models import Provider, CategoryFood, Food
+from .models import Orders
+from .serializers import ProvidersSerializer, FoodSerializer, CategoryFoodSerializer, OrdersSerializer
+
+
+class FoodViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = Food.objects.filter(is_active=1)
+    serializer_class = FoodSerializer
+#
+class CategoryFoodViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = CategoryFood.objects.all().prefetch_related(
+            Prefetch('foods', queryset=Food.objects.filter(is_active=1)))
+    serializer_class = CategoryFoodSerializer
+
+class ProvidersViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    raw_queryset = Provider.objects.all().prefetch_related(
+        Prefetch('categorysfoods', queryset=CategoryFood.objects.all().prefetch_related(
+            Prefetch('foods', queryset=Food.objects.filter(is_active=1))
+        )))
+
+    queryset = raw_queryset
+    serializer_class = ProvidersSerializer
+    # permission_classes = [permissions.IsAuthenticated]
+
+
+
+class OrdersViewSet(viewsets.ModelViewSet):
+# class OrdersViewSet(generics.ListAPIView):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = Orders.objects.all()
+    serializer_class = OrdersSerializer
+    def get_queryset(self):
+        return Orders.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
 
 
 # def make_food_set(form):
@@ -32,10 +83,9 @@ class FoodAllView(ListView):
     context_object_name = 'providers'
     # raw_queryset = Provider.objects.all().prefetch_related()  # Prefetch('provider_set', queryset=Food.objects.filter(is_active=1)))
     raw_queryset = Provider.objects.all().prefetch_related(
-        Prefetch('categoryfood_set', queryset=CategoryFood.objects.all().prefetch_related(
-            Prefetch('food_set', queryset=Food.objects.filter(is_active=1))
+        Prefetch('categorysfoods', queryset=CategoryFood.objects.all().prefetch_related(
+            Prefetch('foods', queryset=Food.objects.filter(is_active=1))
         )))
-
     queryset = raw_queryset
 #
 #     def post(self, request, *args, **kwargs):

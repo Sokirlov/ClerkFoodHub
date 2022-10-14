@@ -5,10 +5,13 @@ from catering.models import Food, Provider
 
 
 class Orders(models.Model):
+    """
+    "data_add", "user", "catering", "food", "quantity", "order_for_day", "payer", "provider_cart_id",
+    """
     data_add = models.DateField(auto_now_add=True)
-    user = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING, verbose_name='Замовляв', related_name='client')
-    catering = models.ForeignKey(Provider, verbose_name='Кейтерінг', on_delete=models.DO_NOTHING)
-    food = models.ForeignKey(Food, verbose_name='Страва', on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING, verbose_name='Замовляв', related_name='user')
+    catering = models.ForeignKey(Provider, verbose_name='Кейтерінг', on_delete=models.DO_NOTHING, related_name='catering')
+    food = models.ForeignKey(Food, verbose_name='Страва', on_delete=models.DO_NOTHING, related_name='food')
     quantity = models.PositiveSmallIntegerField('Кількість', default=1)
     order_for_day = models.DateField('На яку дату замовлення')
     payer = models.ForeignKey(CustomUser, blank=True, null=True, on_delete=models.DO_NOTHING, verbose_name='Оплатив', related_name='payer')

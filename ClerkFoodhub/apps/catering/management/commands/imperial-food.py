@@ -23,7 +23,7 @@ class Dishes:
         for rows in blcok_food.find_all('li', class_='dish-item'):
             image = rows.find('img')['data-original']
             link_buy = rows.find('a', class_='addtocart')['href']  # .replace('/component/jshopping/cart/add.html?', '')
-            link = rows.find('a', class_="dish-title")['href']
+            link = 'https://food.imperialcatering.com.ua' + rows.find('a', class_="dish-title")['href']
             title = re.sub("\"", "", rows.find('h3').text.strip())
             descr = rows.find('p', class_="dish-consist").text.strip()
             price = re.sub(" грн", "", rows.find('p', class_="dish-price").text.strip())
