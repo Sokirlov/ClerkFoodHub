@@ -1,17 +1,17 @@
 import datetime
 from typing import Dict, Any
-
 from django.shortcuts import render
-from django.db.models import Prefetch
-from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework import permissions
 from django.contrib.auth.models import User
+
+from django.db.models import Prefetch
+from django.views.generic import ListView, DetailView
+from rest_framework import viewsets
 from catering.models import Provider, CategoryFood, Food
-from .models import Orders
-from .serializers import ProvidersSerializer, FoodSerializer, CategoryFoodSerializer, OrdersSerializer
+from cart.models import Orders
+from cart.serializers import ProvidersSerializer, FoodSerializer, CategoryFoodSerializer, OrdersUserSerializer
 
 
 class FoodViewSet(viewsets.ModelViewSet):
@@ -44,19 +44,31 @@ class ProvidersViewSet(viewsets.ModelViewSet):
 
 
 
-class OrdersViewSet(viewsets.ModelViewSet):
-# class OrdersViewSet(generics.ListAPIView):
+class OrdersUserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
     queryset = Orders.objects.all()
-    serializer_class = OrdersSerializer
+    serializer_class = OrdersUserSerializer
     def get_queryset(self):
-        return Orders.objects.filter(user=self.request.user)
+        return Orders.objects.filter(user__departament=self.request.user.departament.id)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
+
+# class DepartamentOrdersViewSet(viewsets.ReadOnlyModelViewSet):
+#     """
+#     API endpoint that allows users to be viewed or edited.
+#     """
+#     queryset = Orders.objects.all()
+#     serializer_class = DepartamentOrdersSerializer
+#     def get_queryset(self):
+#         # print(f'DEPARTAMENT = {self.request.user.departament.date_add}')
+#         return Orders.objects.filter(user__departament=self.request.user.departament.id)
+
+    # def perform_create(self, serializer):
+    #     serializer.save(user=self.request.user)
 
 
 

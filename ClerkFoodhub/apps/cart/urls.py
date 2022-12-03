@@ -2,13 +2,12 @@ from django.urls import include, path
 from django.contrib.auth.decorators import login_required
 from rest_framework import routers
 from . import views
-# from .views import FoodAllView, OrdersViewSet, OrdersViewSet
 
 router = routers.DefaultRouter()
 # router.register(r'providers', views.ProviderViewSet)
-router.register(r'add-order', views.OrdersViewSet)
-# router.register(r'add-order', views.OrdersViewSet.as_view())
-router.register(r'Menu-all-foods', views.ProvidersViewSet)
+router.register(r'all_add-order_by_department', views.OrdersUserViewSet)
+router.register(r'all-foods', views.ProvidersViewSet)
+# router.register(r'departament', views.DepartamentOrdersViewSet)
 
 
 app_name = 'cart'
