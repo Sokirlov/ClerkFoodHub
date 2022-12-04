@@ -2,6 +2,7 @@ import re
 from django.db import models
 from django.utils.safestring import mark_safe
 from django.contrib.auth.models import AbstractUser
+
 from site_settings.models import District
 # from django.contrib.auth.admin import UserAdmin
 
@@ -44,12 +45,12 @@ class CustomUser(AbstractUser):
     # date_add = models.DateTimeField('Дата створення', auto_now_add=True)
     ordering = models.PositiveSmallIntegerField('Сортування', default=0)
 
-
     def avatar_image_tag(self):
         return mark_safe(f'<img src="/media/{self.avatar}" width="50" />')
     avatar_image_tag.short_description = 'Світлина'
 
     def save(self, *args, **kwargs):
+        print(self.__dict__)
         if self.phone:
             ph_arr = re.findall('\d', self.phone)
             self.phone = str().join(ph_arr)
@@ -60,5 +61,5 @@ class CustomUser(AbstractUser):
         verbose_name = 'Співробітник'
         verbose_name_plural = '2. Співробітники'
 
-    def __str__(self):
-        return f"{self.first_name +' '+ self.last_name}"
+    # def __str__(self):
+    #     return f"{self.first_name +' '+ self.last_name}"

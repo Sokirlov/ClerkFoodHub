@@ -15,6 +15,8 @@ PASS = os.getenv('ADM_PASS')
 
 def start():
     try:
+        from users.models import CustomUser
+        print(f' {len(User.objects.all())} CustomUser = {len(CustomUser.objects.all())}')
         # from users.models import CustomUser
         if len(User.objects.all()) >= 1:
             call_command("runserver", "0.0.0.0:8000")
