@@ -3,7 +3,8 @@ For start project you need have the Docker.
 
 1. run the command "git clone https://github.com/Sokirlov/ImperialFoodPars.git"
 2. create the file dev.env in directory ImperialFoodPars
-3. Add the following content to the `dev.env`
+
+Add the following content to the `dev.env`
 ```yaml
 PYTHONDONTWRITEBYTECODE=1
 PYTHONUNBUFFERED=1
