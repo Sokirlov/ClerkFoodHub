@@ -38,18 +38,19 @@ class OrdersAdmin(admin.ModelAdmin):
 #     add_form = MyUserCreationForm
 
 class CustomUserAdmin(UserAdmin):
+    add_form = CustomUserCreationForm
+    form = CustomUserChangeForm
     model = CustomUser
     list_display = ['id', 'first_name', 'last_name', 'phone', 'departament', 'departament_organization', 'ordering']
     list_display_links = ['id', 'first_name', 'last_name', 'phone']
     list_editable = ['ordering']
     list_filter = ['departament']
     readonly_fields = ('avatar_image_tag',)
-    # fieldsets = (
-    #     ('Додатковы iнфа', {'fields': ('departament', 'first_name', 'last_name', 'email', 'phone', ('avatar_image_tag', 'avatar'), 'ordering', 'last_login',)}),
-    #     ('Співробітник',
-    #      {'fields': ('username', 'password',  'date_joined', ('is_active', 'is_staff', 'is_superuser',), 'user_permissions', )}),
-    # )
-    add_fieldsets = (    ('Користувач', {'fields': ('departament', 'first_name', 'last_name', 'email', 'phone', ('avatar_image_tag', 'avatar'), 'ordering', 'last_login', 'date_joined', ('is_active', 'is_staff', 'is_superuser',), 'user_permissions', 'groups' )}),)
+    fieldsets = (
+        ('Додатковы iнфа', {'fields': ('departament', 'first_name', 'last_name', 'email', 'phone', ('avatar_image_tag', 'avatar'), 'ordering', 'last_login',)}),
+        ('Співробітник',
+         {'fields': ('username', 'password',  'date_joined', ('is_active', 'is_staff', 'is_superuser',), 'user_permissions', )}),
+    )
     @admin.display(description='Компанія')
     def departament_organization(self, obj):
         try:
@@ -58,6 +59,7 @@ class CustomUserAdmin(UserAdmin):
             return '--'
 
     def get_queryset(self, request):
+        print(f'get_queryset {self.__dict__}')
         qs = super().get_queryset(request)
         if not request.user.is_superuser:
             qs = qs.filter(departament__company=request.user.departament.company)
@@ -75,10 +77,10 @@ class CustomUserAdmin(UserAdmin):
                 kwargs["queryset"] = Departament.objects.all()
             return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
-    def get_fieldsets(self, request, obj=None):
-        if request.user.is_superuser:
-            return (('User',{'fields': ('username', 'password',  )}),)
-        else:
-            return (('User', {'fields': ('username', 'password', )}),)
+    # def get_fieldsets(self, request, obj=None):
+    #     if request.user.is_superuser:
+    #         return (('User',{'fields': ('username', 'password',  )}),)
+    #     else:
+    #         return (('User', {'fields': ('username', 'password', )}),)
 
 admin.site.register(CustomUser, CustomUserAdmin)
