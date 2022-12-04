@@ -3,16 +3,16 @@ For start project you need have the Docker.
 
 1. run the command "git clone https://github.com/Sokirlov/ImperialFoodPars.git"
 2. create the file dev.env in directory ImperialFoodPars
-3. write in file
-...
->    PYTHONDONTWRITEBYTECODE=1
->    PYTHONUNBUFFERED=1
->    DJANGO_SETTINGS_MODULE=ClerkFoodhub.settings
->    POSTGRES_DB= your database name
->    POSTGRES_USER= user for database
->    POSTGRES_PASSWORD= password for database
->    ADM_USER=SuperAdministrator name
->    ADM_PASS=SuperAdministrator password
-...
+3. Add the following content to the dev.env
+    ...dev.env
+    PYTHONDONTWRITEBYTECODE=1
+    PYTHONUNBUFFERED=1
+    DJANGO_SETTINGS_MODULE=ClerkFoodhub.settings
+    POSTGRES_DB= your database name
+    POSTGRES_USER= user for database
+    POSTGRES_PASSWORD= password for database
+    ADM_USER=SuperAdministrator name
+    ADM_PASS=SuperAdministrator password
+    ...
 4. run the command "docker-compose up --build"
 
