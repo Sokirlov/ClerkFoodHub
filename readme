@@ -1,23 +1,18 @@
-git clone https://github.com/Sokirlov/ImperialFoodPars.git
-cd ImperialFoodPars
-python -m venv venv
-venv\scripts\activate
-pip install -r req.txt
-cd django__\dinershop
+# Hello, it's my pet project Foods HUB
+For start project you need have the Docker.
 
-python manage.py makemigrations
-python manage.py migrate
-python manage.py createsuperuser
-(заполнить поля суперпользователя)
+1. run the command "git clone https://github.com/Sokirlov/ImperialFoodPars.git"
+2. create the file dev.env in directory ImperialFoodPars
+3. write in file
+...
+>    PYTHONDONTWRITEBYTECODE=1
+>    PYTHONUNBUFFERED=1
+>    DJANGO_SETTINGS_MODULE=ClerkFoodhub.settings
+>    POSTGRES_DB= your database name
+>    POSTGRES_USER= user for database
+>    POSTGRES_PASSWORD= password for database
+>    ADM_USER=SuperAdministrator name
+>    ADM_PASS=SuperAdministrator password
+...
+4. run the command "docker-compose up --build"
 
-python manage.py runserver
-( зайти в админку по адресу http://127.0.0.1:8000/admin в раздел Поставщики
-  Добавить поставщика 
-  - Название поставщика: Imperial Food
-  - Ссылка на поставщика: https://food.imperialcatering.com.ua/)
-
-в консоле остановить сервер командой ctrl+c
-
-python manage.py imperial-food
-
-python manage.py runserver

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load catering_tags %}
+{% block title %}{% endblock %}
+{% block header %}
+{% endblock %}
+{% block content %}
+    <div style="height: 60px;">&nbsp;</div>
+    <div class="row w-100">
+    <div class="col-1">&nbsp;</div>
+    {% for provider in providers %}
+        <div class="ml-5">
+            <h1 style="text-decoration: underline; text-transform: uppercase;">{{ provider }}</h1>
+            {% for cat in provider.categorysfoods.all %}
+                <div class="w-75"><h2>{{ cat.id }} - {{ cat }}</h2>
+                {% for foo in cat.foods.all %}
+                - {{ foo }}, &nbsp;
+                {% endfor %}
+                </div>
+            {% endfor %}
+</div>
+    {% endfor %}
+{% endblock %}
