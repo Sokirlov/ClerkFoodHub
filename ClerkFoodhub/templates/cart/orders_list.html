@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block header %}
+
+{% endblock %}
+{% block content %}
+{% for db in dashboard %}
+    <ul>
+        <li>{{ db.user }}</li>
+        <li>{{ db.food }}</li>
+        <li>{{ db.order_for_day }}</li>
+        <li>{{ db.payer }}</li>
+    </ul>
+{% endfor %}
+
+{% endblock %}

@@ -21,7 +21,10 @@
 <body>
 <div class="flex-colomn">
     <div id="menu" class="bg-white border-bottom fixed-top py-2 w-100">
-    {% include "menu.html" %}</div>
+        {% if user.is_authenticated %}
+            {% include "menu.html" %}
+        {% endif %}
+    </div>
     <div class="mt-5"><p>&nbsp;<br></p></div>
     <div class="mt-5">{% block content %}{% endblock %}</div>
     <div>{% block footer %}{% endblock %}</div>

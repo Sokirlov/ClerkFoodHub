@@ -138,3 +138,29 @@ class FoodAllView(ListView):
 #     queryset = sorting_by_day(future_orders)
 #     template_name = 'catering/order_cart.html'
 #     context_object_name = 'dishes'
+
+class DashBoardOrders(ListView):
+    def sorting_by_day(self):
+        new_list: dict[str, Any] = dict()
+        for ord in self:
+            print(ord)
+#     try:
+        #         foodlist = new_list[str(ord.order_for_day)]
+        #         for i in ord.food.all():
+        #             if i in foodlist:
+        #                 foodlist[i]['quantity'] += 1
+        #             else:
+        #                 foodlist[i] = i.__dict__
+        #                 foodlist[i]['quantity'] = 1
+        #     except:
+        #         foodlist = dict()
+        #         for i in ord.food.all():
+        #             foodlist[i] = i.__dict__
+        #             foodlist[i]['quantity'] = 1
+        #         new_list[str(ord.order_for_day)] = foodlist
+        return self
+    model = Orders
+    future_orders = Orders.objects.filter(order_for_day__gte=datetime.datetime.today() + datetime.timedelta(days=1))#, user=request.user.username)
+    # future_orders = Orders.objects.filter(order_for_day__gte=datetime.datetime.today() + datetime.timedelta(days=10))
+    queryset = sorting_by_day(future_orders)
+    context_object_name = 'dashboard'
