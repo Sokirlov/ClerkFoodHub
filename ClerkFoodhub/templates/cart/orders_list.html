@@ -1,16 +1,35 @@
 {% extends "base.html" %}
+{% load catering_tags %}
 {% block title %}Dashboard{% endblock %}
 {% block header %}
 
 {% endblock %}
 {% block content %}
-{% for db in dashboard %}
-    <ul>
-        <li>{{ db.user }}</li>
-        <li>{{ db.food }}</li>
-        <li>{{ db.order_for_day }}</li>
-        <li>{{ db.payer }}</li>
-    </ul>
-{% endfor %}
+
+    <div class="row row-cols-5 justify-content-center">
+    {% for day in dashboard %}
+        {% if day.0.order_for_day %}
+        <div class="col">
+            <div class="d-flex justify-content-between" style="border-bottom: 1px solid gray"><h3>{{ day.0.order_for_day|date:"l" }}</h3><sup>{{ day.0.order_for_day|date:"(d-m-Y)" }}</sup></div>
+            {% for boo in day %}
+                <div>
+                    {{ boo.food }}
+                </div>
+
+            {% endfor %}
+            </div>
+        {% endif %}
+    {% endfor %}
+    </div>
+{#    {{ dashboard }}#}
+
+{#{% for db in dashboard %}#}
+{#    <ul>#}
+{#        <li>{{ db.user }}</li>#}
+{#        <li>{{ db.food }}</li>#}
+{#        <li>{{ db.order_for_day }}</li>#}
+{#        <li>{{ db.payer }}</li>#}
+{#    </ul>#}
+{#{% endfor %}#}
 
 {% endblock %}

@@ -19,7 +19,7 @@
     {% block header %}{% endblock %}
 </head>
 <body>
-<div class="flex-colomn">
+<div class="flex-colomn overflow-hidden">
     <div id="menu" class="bg-white border-bottom fixed-top py-2 w-100">
         {% if user.is_authenticated %}
             {% include "menu.html" %}

@@ -140,27 +140,22 @@ class FoodAllView(ListView):
 #     context_object_name = 'dishes'
 
 class DashBoardOrders(ListView):
-    def sorting_by_day(self):
-        new_list: dict[str, Any] = dict()
-        for ord in self:
-            print(ord)
-#     try:
-        #         foodlist = new_list[str(ord.order_for_day)]
-        #         for i in ord.food.all():
-        #             if i in foodlist:
-        #                 foodlist[i]['quantity'] += 1
-        #             else:
-        #                 foodlist[i] = i.__dict__
-        #                 foodlist[i]['quantity'] = 1
-        #     except:
-        #         foodlist = dict()
-        #         for i in ord.food.all():
-        #             foodlist[i] = i.__dict__
-        #             foodlist[i]['quantity'] = 1
-        #         new_list[str(ord.order_for_day)] = foodlist
-        return self
+
+    def sorting_by_day():
+        # new_list: dict[int, Any] = dict()
+        new_list = list()
+        for d in range(1, 7, 1):
+            the_day = (datetime.datetime.today() + datetime.timedelta(days=d))
+            if the_day.isoweekday() in range(1, 5):
+                # print('id -', d, '-', the_day.isoweekday())
+                rq = Orders.objects.filter(order_for_day=the_day)
+                new_list.append(rq)
+                # print('new_list -', new_list[f'{d}'])
+        # print(new_list)
+        return new_list
     model = Orders
-    future_orders = Orders.objects.filter(order_for_day__gte=datetime.datetime.today() + datetime.timedelta(days=1))#, user=request.user.username)
+    # future_orders = Orders.objects.filter(order_for_day__gte=datetime.datetime.today() + datetime.timedelta(days=1))#, user=request.user.username)
     # future_orders = Orders.objects.filter(order_for_day__gte=datetime.datetime.today() + datetime.timedelta(days=10))
-    queryset = sorting_by_day(future_orders)
+    queryset = sorting_by_day()
     context_object_name = 'dashboard'
+    template_name = 'cart/orders_list.html'
