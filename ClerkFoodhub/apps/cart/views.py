@@ -1,4 +1,5 @@
 import datetime
+import locale, sys
 from typing import Dict, Any
 from django.shortcuts import render
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -6,6 +7,8 @@ from rest_framework import generics
 from rest_framework import permissions
 from django.contrib.auth.models import User
 
+from django.http import Http404
+from django.utils.translation import gettext as _
 from django.db.models import Prefetch
 from django.views.generic import ListView, DetailView
 from rest_framework import viewsets
@@ -142,16 +145,15 @@ class FoodAllView(ListView):
 class DashBoardOrders(ListView):
 
     def sorting_by_day():
-        # new_list: dict[int, Any] = dict()
-        new_list = list()
-        for d in range(1, 7, 1):
+        if sys.platform == 'win32':
+            locale.setlocale(locale.LC_ALL, 'ukr_ukr')
+        else:
+            locale.setlocale(locale.LC_ALL, 'uk_UA.UTF-8')
+        new_list: dict[int, Any] = dict()
+        for d in range(1, 8, 1):
             the_day = (datetime.datetime.today() + datetime.timedelta(days=d))
-            if the_day.isoweekday() in range(1, 5):
-                # print('id -', d, '-', the_day.isoweekday())
-                rq = Orders.objects.filter(order_for_day=the_day)
-                new_list.append(rq)
-                # print('new_list -', new_list[f'{d}'])
-        # print(new_list)
+            if the_day.isoweekday() in range(1, 6):
+                new_list[datetime.datetime.strftime(the_day, '%A')] = Orders.objects.filter(order_for_day=the_day)
         return new_list
     model = Orders
     # future_orders = Orders.objects.filter(order_for_day__gte=datetime.datetime.today() + datetime.timedelta(days=1))#, user=request.user.username)
@@ -159,3 +161,4 @@ class DashBoardOrders(ListView):
     queryset = sorting_by_day()
     context_object_name = 'dashboard'
     template_name = 'cart/orders_list.html'
+
