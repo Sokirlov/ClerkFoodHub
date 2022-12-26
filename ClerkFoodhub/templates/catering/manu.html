@@ -29,6 +29,10 @@
         text-decoration: underline;
         text-transform: uppercase;
     }
+    .food_name{
+        font-size: 24px;
+        font-weight: 600;
+    }
     .price{
         font-size: 25px;
         font-weight: 600;
@@ -60,7 +64,7 @@
     {#                                    <img src="{{ foo.image }}" height="100px">#} &nbsp;
                                     </div>
                                     <div class="pl-1 w-100">
-                                        <h3><a href="{{ foo.link }}">{{ foo.title }}</a></h3>
+                                        <p class="food_name"><a href="{{ foo.link }}">{{ foo.title }}</a></p>
                                         <p>{{ foo.description }}</p>
                                         <div class="price">{{ foo.price }} грн</div>
                                         <em>last_update {{ foo.last_update }}</em>

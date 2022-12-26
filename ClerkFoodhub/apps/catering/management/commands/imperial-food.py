@@ -13,6 +13,7 @@ except:
 category = {}
 
 
+##TODO  Get from caterig waight of food
 class Dishes:
     def pars_food(self, soup, cat, cat_name):
         # category, title, description, price, buy_link, image, link, id_sort, is_active, date_add, last_update

@@ -58,7 +58,7 @@ class Food(models.Model):
     "category", "title", "description", "price", "buy_link", "image", "link", "id_sort", "is_active", "date_add", "last_update"
 
     """
-
+    ##TODO  Get from caterig waight of food
     category = models.ForeignKey(CategoryFood, on_delete=models.DO_NOTHING, related_name='foods', verbose_name='Категорія страви')
     title = models.CharField('Страва', max_length=200)
     description = models.TextField('Інгрідієнти', null=True, blank=True)
