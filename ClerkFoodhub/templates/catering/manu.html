@@ -1,12 +1,21 @@
 {% extends "base.html" %}
 {% load catering_tags %}
-{% block title %}{% endblock %}
+{% block title %}Замовлення на:{% endblock %}
 {% block header %}
     <style>
     .cat-container{
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
+    }
+    .cart{
+        position: fixed;
+        top: 50px;
+        right: 0px;
+        background: #cccccc;
+        border: blueviolet 1px;
+        border-radius: 3px;
+        padding: 20px 10px;
     }
     .food_image{
         min-width: 100px;
@@ -44,38 +53,70 @@
         left: 10px;
         font-size: 12px;
     }
+    #cart_order input{
+        width: 40px;
+    }
     </style>
+    <script>
+    $(document).ready(function(){
+        $('.cart_add').click(function(){
+            let food_id = $(this).attr('food_id')
+            let food_name = $(this).attr('food_name')
+            let container = $(this).parent('.cart_btn')
+            let count = container.children('input').val()
+            console.log(food_name, '-', food_id, count)
+            $('#cart_order').append('<tr><td>'+food_name+'</td><td><input type="number" name="'+food_id+'" value="'+count+'"></td></tr>')
+        })
+    });
+    </script>
 {% endblock %}
 {% block content %}
     <div style="height: 60px;">&nbsp;</div>
-    <div class="w-100">
-    <div class="col-1">&nbsp;</div>
-    {% for provider in providers %}
-        <div>
-            <h1 class="ml-5">{{ provider }}</h1>
-            {% for cat in provider.categorysfoods.all %}
-                {% if cat.foods.all %}
-                    <div class="w-100 mt-5 pl-5 p-2 food_category">
-                        <h2>{{ cat }}</h2>
-                        <div class="cat-container">
-                            {% for foo in cat.foods.all %}
-                                <div class="p-2 m-2 d-flex flex-row food_block">
-                                    <div class="food_image" style="background-image: url('{{ foo.image }}');">
-    {#                                    <img src="{{ foo.image }}" height="100px">#} &nbsp;
+    <div class="w-100 d-flex">
+{#    <div class="col-1">&nbsp;</div>#}
+    <div class="col-10">
+        {% for provider in providers %}
+            <div>
+                <h1 class="ml-5">{{ provider }}</h1>
+                {% for cat in provider.categorysfoods.all %}
+                    {% if cat.foods.all %}
+                        <div class="w-100 mt-5 pl-5 p-2 food_category">
+                            <h2>{{ cat }}</h2>
+                            <div class="cat-container">
+                                {% for foo in cat.foods.all %}
+                                    <div class="p-2 m-2 d-flex flex-row food_block">
+                                        <div class="food_image" style="background-image: url('{{ foo.image }}');">
+        {#                                    <img src="{{ foo.image }}" height="100px">#} &nbsp;
+                                        </div>
+                                        <div class="pl-1 w-100">
+                                            <p class="food_name"><a href="{{ foo.link }}">{{ foo.title }}</a></p>
+                                            <p>{{ foo.description }}. <br>Вага:{{ foo.weight }}</p>
+                                            <div class="price">{{ foo.price }} грн</div>
+                                            <div class="cart_btn m-2">
+                                                <div class="btn btn-success cart_add" food_id="{{ foo.id }}" food_name="{{ foo.title }}">Add to cart </div>
+                                                <input class="w-25" type="number" value="1" >
+                                            </div>
+                                            <em>last_update {{ foo.last_update }}</em>
+                                        </div>
                                     </div>
-                                    <div class="pl-1 w-100">
-                                        <p class="food_name"><a href="{{ foo.link }}">{{ foo.title }}</a></p>
-                                        <p>{{ foo.description }}. <br>Вага:{{ foo.weight }}</p>
-                                        <div class="price">{{ foo.price }} грн</div>
-                                        <em>last_update {{ foo.last_update }}</em>
-                                    </div>
-
-                                </div>
-                            {% endfor %}
+                                {% endfor %}
+                            </div>
                         </div>
-                    </div>
-                {% endif %}
-            {% endfor %}
-</div>
-    {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="col-3 cart">
+        <h2>Замовлення на: {{ order_day }}</h2>
+        <form method="post" name="DTAA">
+            {% csrf_token %}
+            <input type="hidden" name="order_day" value="{{ order_day }}">
+            <table id="cart_order">
+
+            </table>
+             <input type="submit" value="Send order">
+        </form>
+
+    </div>
 {% endblock %}

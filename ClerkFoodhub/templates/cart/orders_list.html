@@ -7,26 +7,25 @@
 {% block content %}
 
     <div class="row row-cols-5 justify-content-center mx-5">
-    {% for day, orders in dashboard.items %}
-        <div class="col">
-            <div class="d-flex justify-content-between te" style="border-bottom: 1px solid gray">
-                <h3 class="text-uppercase">{{ day }}</h3>
-                <sup>{% if orders.0.order_for_day %}
-                    {{ orders.0.order_for_day|date:"(d-m-Y)" }}
-                    {% else %}
-                    Немає замовлень
+        {% for day, orders_list in dashboard.items %}
+            <div class="col">
+                <div class="d-flex justify-content-between te" style="border-bottom: 1px solid gray">
+                    <h3 class="text-uppercase"><a href="{% url 'cart:cart' %}?order_day={{ orders_list.order_date|date:"d-m-Y" }}">{{ day }}</a></h3>
+                    <sup>{{ orders_list.order_date|date:"d-m-Y" }}</sup>
+                </div>
+                {% if orders_list.orders %}
+                    {% for food in orders_list.orders %}
+                        {% if request.user == food.user %}
+                            <div>
+                                {{ forloop.counter }}. {{ food.food }} - {{ food.food.price }} = {{ food.user }}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <div class="text-danger">- Немає замовлень</div>
                 {% endif %}
-                </sup>
             </div>
-            {% for food in orders %}
-                {% if request.user == food.user %}
-                    <div>
-                        {{ forloop.counter }}. {{ food.food }} - {{ food.food.price }} = {{ food.user }}
-                    </div>
-                {% endif %}
-            {% endfor %}
-            </div>
-    {% endfor %}
+        {% endfor %}
     </div>
 
 

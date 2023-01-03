@@ -9,10 +9,13 @@ from django.contrib.auth.models import User
 
 from django.http import Http404
 from django.utils.translation import gettext as _
+from .forms import OrdersForm
+from django.shortcuts import redirect
 from django.db.models import Prefetch
 from django.views.generic import ListView, DetailView
 from rest_framework import viewsets
 from catering.models import Provider, CategoryFood, Food
+from users.models import CustomUser
 from cart.models import Orders
 from cart.serializers import ProvidersSerializer, FoodSerializer, CategoryFoodSerializer, OrdersUserSerializer
 
@@ -23,7 +26,7 @@ class FoodViewSet(viewsets.ModelViewSet):
     """
     queryset = Food.objects.filter(is_active=1)
     serializer_class = FoodSerializer
-#
+
 class CategoryFoodViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
@@ -44,8 +47,6 @@ class ProvidersViewSet(viewsets.ModelViewSet):
     queryset = raw_queryset
     serializer_class = ProvidersSerializer
     # permission_classes = [permissions.IsAuthenticated]
-
-
 
 class OrdersUserViewSet(viewsets.ModelViewSet):
     """
@@ -75,23 +76,6 @@ class OrdersUserViewSet(viewsets.ModelViewSet):
 
 
 
-# def make_food_set(form):
-#     order = {}
-#     for i in form:
-#         if i != 'csrfmiddlewaretoken':
-#             # print(f'i - {i}')
-#             order_dish_date = i.split(' - ')
-#             order_date = order_dish_date[2]
-#             order_dish = Food.objects.get(id=order_dish_date[0])
-#             try:
-#                 order_key = order[order_date]
-#                 order_key.append(order_dish)
-#                 order[order_date] = order_key
-#             except:
-#                 order[order_date] = [order_dish,]
-#     return order
-
-
 class FoodAllView(ListView):
     model = Provider
     template_name = 'catering/manu.html'
@@ -102,18 +86,33 @@ class FoodAllView(ListView):
             Prefetch('foods', queryset=Food.objects.filter(is_active=1))
         )))
     queryset = raw_queryset
-#
-#     def post(self, request, *args, **kwargs):
-#         form = request.POST
-#         user_raw = request.user.username
-#         user = Worker.objects.get(username=user_raw)
-#         order_list = make_food_set(form)
-#         for key, order in order_list.items():
-#             order_date = datetime.datetime.strptime(key, '%d/%m/%Y %H:%M')
-#             new_order = Orders.objects.create(user=user, quantity=1, order_for_day=order_date)
-#             for dish in order:
-#                 new_order.food.add(dish)
-#         return self.get(request, *args, **kwargs)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['order_day'] = self.request.GET.get('order_day')
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = request.POST
+        order_for_day = datetime.datetime.strptime(form['order_day'], '%d-%m-%Y')
+        user_raw = request.user.username
+        user = CustomUser.objects.get(username=user_raw)
+        for name, orders in form.items():
+            if name == 'csrfmiddlewaretoken' or name == 'order_day':
+                continue
+            else:
+                dish = Food.objects.get(id=name)
+                # "data_add", "user", "catering", "food", "quantity", "order_for_day", "payer", "provider_cart_id",
+                Orders.objects.create(
+                    data_add=datetime.datetime.now(),
+                    user=user,
+                    catering=dish.category.provider,
+                    food=dish,
+                    quantity=orders[0],
+                    order_for_day=order_for_day)
+        print(user, order_for_day, )
+        # return self.get(request, *args, **kwargs)
+        return redirect('/')
 
 
 
@@ -153,7 +152,11 @@ class DashBoardOrders(ListView):
         for d in range(1, 8, 1):
             the_day = (datetime.datetime.today() + datetime.timedelta(days=d))
             if the_day.isoweekday() in range(1, 6):
-                new_list[datetime.datetime.strftime(the_day, '%A')] = Orders.objects.filter(order_for_day=the_day)
+                new_list[datetime.datetime.strftime(the_day, '%A')] ={
+                    "orders": Orders.objects.filter(order_for_day=the_day),
+                    "order_date": the_day,
+                }
+
         return new_list
     model = Orders
     # future_orders = Orders.objects.filter(order_for_day__gte=datetime.datetime.today() + datetime.timedelta(days=1))#, user=request.user.username)
