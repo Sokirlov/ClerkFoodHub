@@ -1,32 +1,50 @@
 {% extends "base.html" %}
 {% load catering_tags %}
 {% block title %}Dashboard{% endblock %}
-{% block header %}
-
-{% endblock %}
+{% block header %}{% endblock %}
 {% block content %}
-
     <div class="row row-cols-5 justify-content-center mx-5">
         {% for day, orders_list in dashboard.items %}
-            <div class="col">
-                <div class="d-flex justify-content-between te" style="border-bottom: 1px solid gray">
-                    <h3 class="text-uppercase"><a href="{% url 'cart:cart' %}?order_day={{ orders_list.order_date|date:"d-m-Y" }}">{{ day }}</a></h3>
-                    <sup>{{ orders_list.order_date|date:"d-m-Y" }}</sup>
-                </div>
+            <div class="col hover flex-1">
+                <a href="{% url 'cart:cart' %}?order_day={{ orders_list.order_date|date:"d-m-Y" }}"><div>
+                    <div class="d-flex card-header justify-content-between te" style="border-bottom: 1px solid gray">
+                        <h3 class="text-uppercase"><a href="{% url 'cart:cart' %}?order_day={{ orders_list.order_date|date:"d-m-Y" }}">{{ day }}</a></h3>
+                        <sup class="m-2">{{ orders_list.order_date|date:"d-m-Y" }}</sup>
+                    </div>
                 {% if orders_list.orders %}
+                    <ol>
                     {% for food in orders_list.orders %}
                         {% if request.user == food.user %}
-                            <div>
-                                {{ forloop.counter }}. {{ food.food }} - {{ food.food.price }} = {{ food.user }}
-                            </div>
+                            <li>
+                                {{ food.food }}  {{ food.quantity }}шт
+                                <span hidden class="price">{{ food.food.price }}</span>
+{#                                <span class="price justify-content-end">{{ food.food.price }}</span>#}
+{#                                = {{ food.user }}#}
+                            </li>
                         {% endif %}
                     {% endfor %}
-                {% else %}
-                    <div class="text-danger">- Немає замовлень</div>
+                    </ol>
+{#                    <hr>#}
+{#                    <p>Сумма {{ orders_list.orders|summ_order }} грн</p>#}
+{#                {% else %}#}
+{#                    <div class="text-danger">- Немає замовлень</div>#}
                 {% endif %}
+                </div></a>
             </div>
         {% endfor %}
     </div>
-
+    <div class="row row-cols-5 justify-content-center mx-5">
+        {% for day, orders_list in dashboard.items %}
+            <div class="col my-5">
+                <div class="card-footer">
+                    {% if orders_list.orders %}
+                        <p>Сумма {{ orders_list.orders|summ_order }} грн</p>
+                    {% else %}
+                        <div class="text-danger">- Немає замовлень</div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 
 {% endblock %}

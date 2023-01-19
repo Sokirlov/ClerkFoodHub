@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load catering_tags %}
+{% block title %}SplitWise{% endblock %}
+{% block header %}{% endblock %}
+{% block content %}
+{% for foo in payed_orders %}
+{{ foo }}
+{% endfor %}
+
+{% endblock %}

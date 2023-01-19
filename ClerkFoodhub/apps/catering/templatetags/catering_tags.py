@@ -27,3 +27,9 @@ def nextdays(append):
     day = today + timedelta(days=append)
     return datetime.datetime.strftime(day, '%d/%m/%Y %H:%m')
 
+@register.filter(name='summ_order')
+def summ_order(data):
+    order = 0.0
+    for i in data:
+        order += float(i.food.price * i.quantity)
+    return order
