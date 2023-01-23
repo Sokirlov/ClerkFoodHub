@@ -2,13 +2,14 @@
     <div class="container-lg">
         <div class="px-3">
             <div class="navbar ">
-                <a class="nav-link" href="{% url 'cart:main' %}">Main</a>
-                <a class="nav-link" href="{% url 'cart:buycart' %}">Замовити</a>
-                <a class="nav-link"  href="{% url 'cart:cart' %}">МЕНЮ</a>
-                <a class="nav-link"  href="{% url 'cart:spliwise' %}">Spliwise</a>
-                <a class="nav-link"  href="/admin/">Admin</a>
+                <a class="nav-link" href="{% url 'cart:main' %}">Головна</a>
+{#                <a class="nav-link" href="{% url 'cart:buycart' %}">Оплатити</a>#}
+{#                <a class="nav-link"  href="{% url 'cart:cart' %}">Замовити на завтра</a>#}
+                <a class="nav-link"  href="{% url 'cart:history' %}">Історія замовлень</a>
+                <a class="nav-link"  href="{% url 'cart:spliwise' %}">Борги</a>
+                <a class="nav-link text-warning"  href="/admin/">Admin</a>
                 <a class="nav-link"  href="/accounts/logout/">logout</a>
-            &nbsp;<div>Hello:  &nbsp;<span class="text-capitalize"> {{ user.get_username }}</span></div>
+                <div>Hello:  &nbsp;<span class="text-capitalize"> {{ user.get_username }}</span></div>
             </div>
 
             {#            <div class="row">#}

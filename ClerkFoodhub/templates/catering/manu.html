@@ -124,9 +124,9 @@
                     {% for cat in provider.categorysfoods.all %}
                         {% if cat.foods.all %}
                             <div class="w-100 mt-1 pl-5 p-2 food_category accordion-item">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse_{{ provider |slugify }}_{{ forloop.counter }}" aria-expanded="false" aria-controls="flush-collapse_{{ provider|slugify }}_{{ forloop.counter }}">
+                                <a class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse_{{ provider |slugify }}_{{ forloop.counter }}" aria-expanded="false" aria-controls="flush-collapse_{{ provider|slugify }}_{{ forloop.counter }}">
                                     <h2 class="accordion-header" id="flush-heading_{{ provider|slugify }}_{{ forloop.counter }}">{{ cat }}</h2>
-                                </button>
+                                </a>
                                 <div id="flush-collapse_{{ provider|slugify }}_{{ forloop.counter }}" class="cat-container accordion-collapse collapse" aria-labelledby="flush-heading_{{ provider|slugify }}_{{ forloop.counter }}" data-bs-parent="#accordionFlushFood">
                                     {% for foo in cat.foods.all %}
                                         <div class="p-2 m-2 d-flex flex-row food_block">
@@ -161,7 +161,7 @@
             {% if ordered %}
                 {% for ord in ordered %}
                     <tr>
-                        <td><span class="cart_food_name">{{ ord.food }}</span></td>
+                        <td><span class="cart_food_name{% if ord.payer %} text-success{% endif %}">{{ ord.food }}</span></td>
                         <td><input type="number" name="{{ ord.food.id }}" value="{{ ord.quantity }}"{% if ord.payer %}disabled {% endif %}></td>
                         <td>{% if ord.payer %}
                         {% else %}

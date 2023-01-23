@@ -1,47 +1,81 @@
 {% extends "base.html" %}
 {% load catering_tags %}
 {% block title %}Dashboard{% endblock %}
-{% block header %}{% endblock %}
+{% block header %}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <style>
+    .card-header, .hover, .price_footer{
+        min-width: 200px;
+    }
+    </style>
+    <script>
+
+    function equalize_height(classname){
+        let max_height = 0
+        $(classname).each(function(){
+            if($(this).height() > max_height){
+                max_height = $(this).height()
+            }
+        })
+        $(classname).each(function(){
+            $(this).height(max_height)
+        })
+        console.log(classname, '=', max_height+'px')
+
+    }
+    $(document).ready(function () {
+        let height_validater = ['.card-header', '.card-boady', '.card-footer']
+        for(let i=0; i < height_validater.length; i++){
+            equalize_height(height_validater[i])
+        }
+    })
+    </script>
+{% endblock %}
 {% block content %}
+    <h2 class="text-center">Мое замовлення</h2>
     <div class="row row-cols-5 justify-content-center mx-5">
         {% for day, orders_list in dashboard.items %}
             <div class="col hover flex-1">
-                <a href="{% url 'cart:cart' %}?order_day={{ orders_list.order_date|date:"d-m-Y" }}"><div>
-                    <div class="d-flex card-header justify-content-between te" style="border-bottom: 1px solid gray">
-                        <h3 class="text-uppercase"><a href="{% url 'cart:cart' %}?order_day={{ orders_list.order_date|date:"d-m-Y" }}">{{ day }}</a></h3>
-                        <sup class="m-2">{{ orders_list.order_date|date:"d-m-Y" }}</sup>
+                <div>
+                    <div class="d-flex flex-wrap card-header" style="border-bottom: 1px solid gray">
+                        <h3 class="text-uppercase"><a
+                                href="{% url 'cart:cart' %}?order_day={{ orders_list.order_date|date:"d-m-Y" }}"
+                                title="Редагувати замовлення">{{ day }}</a></h3>
+                        <sup class="m-2 text-center ml-auto">{{ orders_list.order_date|date:"d-m-Y" }}</sup>
                     </div>
-                {% if orders_list.orders %}
-                    <ol>
-                    {% for food in orders_list.orders %}
-                        {% if request.user == food.user %}
-                            <li>
-                                {{ food.food }}  {{ food.quantity }}шт
-                                <span hidden class="price">{{ food.food.price }}</span>
-{#                                <span class="price justify-content-end">{{ food.food.price }}</span>#}
-{#                                = {{ food.user }}#}
-                            </li>
+                    <div class="card-boady">
+                        {% if orders_list.orders %}
+                            <ol>
+                                {% for food in orders_list.orders %}
+                                    {% if request.user == food.user %}
+                                        <li class="{% if food.payer %}text-light bg-info d-flex justify-content-between{% endif %} my-1">
+                                            <div>{{ food.food }} {{ food.quantity }}шт</div>
+                                            {% if food.payer %}
+                                                <span class="material-symbols-outlined my-auto mr-2"
+                                                      style="font-size: 14px"
+                                                      title="Замовлення в дорозі">local_shipping</span>
+                                            {% endif %}
+                                            <span hidden class="price">{{ food.food.price }}</span>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ol>
+                            </div>
+                        {% else %}
+                            <h4 class="text-danger text-center"><br>Додай сюди <br>щось смачненьке ;)</h4>
                         {% endif %}
-                    {% endfor %}
-                    </ol>
-{#                    <hr>#}
-{#                    <p>Сумма {{ orders_list.orders|summ_order }} грн</p>#}
-{#                {% else %}#}
-{#                    <div class="text-danger">- Немає замовлень</div>#}
-                {% endif %}
-                </div></a>
-            </div>
-        {% endfor %}
-    </div>
-    <div class="row row-cols-5 justify-content-center mx-5">
-        {% for day, orders_list in dashboard.items %}
-            <div class="col my-5">
-                <div class="card-footer">
-                    {% if orders_list.orders %}
-                        <p>Сумма {{ orders_list.orders|summ_order }} грн</p>
-                    {% else %}
-                        <div class="text-danger">- Немає замовлень</div>
-                    {% endif %}
+                    <div class="col my-5">
+                        <div class="card-footer">
+                            {% if orders_list.orders %}
+                                <h6>Сума вашого замовлення: &nbsp; {{ orders_list.orders|summ_order }} грн</h6>
+                                <a class="btn btn-outline-primary w-100"
+                                   href="{% url 'cart:buycart' %}?order_day={{ orders_list.order_date|date:"Y-m-d" }}"
+                                   title="Оплатити за {{ day }}">Оплатити</a>
+                            {% else %}
+                                <div class="text-danger">Безкоштовно</div>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
             </div>
         {% endfor %}

@@ -16,6 +16,7 @@ urlpatterns = [
     path('', login_required(views.DashBoardOrders.as_view()), name='main'),
     path('ct/', login_required(views.FoodAllView.as_view()),  name='cart'),
     path('spliwise/', login_required(views.Splitwise), name='spliwise'),
+    path('hystory/', login_required(views.MyOrderHystory), name='history'),
     path('buy/', login_required(views.BuyOrderInCatering), name='buycart'),
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))

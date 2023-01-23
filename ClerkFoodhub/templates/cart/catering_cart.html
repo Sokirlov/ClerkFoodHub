@@ -19,7 +19,6 @@
             })
             return prov_order
         }
-
         function write_data_summ(order_sum){
             let validator_summ = []
             let by_prov_string = ''
@@ -38,7 +37,6 @@
                 }
             }
             $('#by_providers').html(by_prov_string)
-
             if(validator_summ.every(elem => elem == true)){
                 $('#submit_order').removeAttr('disabled')
             }else{
@@ -47,11 +45,9 @@
             console.log(validator_summ.every(elem => elem == true))
         }
         function falidate_sum(){
-
             validator_summ.every(elem => elem == true)
-
         }
-        
+
         $(document).ready(function () {
             write_data_summ(get_sums())
             $("input").click(function () {
@@ -124,4 +120,29 @@
         <input type="submit" value="Оплатити заказ" class="w-100" id="submit_order">
     </form>
     </div>
+{#----------------------------------------------------------------------#}
+{#    <div>#}
+{#    {% for dep, users in my_order.items %}#}
+{#    <div>#}
+{#    <h3>{{ dep }}</h3>#}
+{#        {% for user, providers in users.items %}#}
+{#        <p>{{ user }}#}
+{#            <ul>#}
+{#            {% for provider, orders in providers.items %}#}
+{#            {{ provider }}#}
+{#            <li>#}
+{#                {{ orders }}#}
+{#            </li>#}
+{#            {% endfor %}#}
+{##}
+{#            </ul>#}
+{#        </p>#}
+{#        {% endfor %}#}
+{#    </div>#}
+{##}
+{#    {% endfor %}#}
+{##}
+{#    </div>#}
+{#    <p>&nbsp;<br></p>#}
+{#  --------------------------------------------------------------------------------  #}
 {% endblock %}
