@@ -7,26 +7,28 @@ services:
       - ./data/db:/var/lib/postgresql/data
     env_file:
       - dev.env
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", $POSTGRES_DB, "-U", $POSTGRES_USER ]
+      timeout: 5s
+      retries: 20
     networks:
       - mainnetwork
+
   web:
     build: .
-#    command: python manage.py runserver 0.0.0.0:8000
-    command: python start.py
+    restart: on-failure
+    depends_on:
+      db:
+        condition: service_healthy
     volumes:
       - .:/code
     ports:
       - "8000:8000"
     env_file:
       - dev.env
-#    environment:
-#      - POSTGRES_NAME=postgres
-#      - POSTGRES_USER=postgres
-#      - POSTGRES_PASSWORD=postgres
     networks:
       - mainnetwork
-    depends_on:
-      - db
+    command: python start.py
 
 networks:
   mainnetwork:
