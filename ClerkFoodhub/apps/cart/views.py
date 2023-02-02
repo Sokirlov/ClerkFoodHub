@@ -222,7 +222,7 @@ def BuyOrderInCatering(request):
 
 def MyOrderHystory(request):
     all_my_order_nosorted = Orders.objects.filter(user=request.user,
-                                                  order_for_day__gte=datetime.datetime.now()).order_by('order_for_day')
+                                                  order_for_day__lte=datetime.datetime.now()).order_by('order_for_day')
     all_my_order = dict()
     for i in all_my_order_nosorted:
         day = str(i.order_for_day)
@@ -274,6 +274,4 @@ def Splitwise(request):
             print('else', all_user_orders[j.payer]['debit'], (j.food.price * j.quantity))
             all_user_orders[j.payer]['debit'] += (j.food.price * j.quantity)
             all_user_orders[j.payer]['balance'] = ( all_user_orders[j.payer]['debit'] - all_user_orders[j.payer]['payments'])
-
-
     return render(request, 'cart/splitwise.html', {'payed_orders': all_user_orders, })

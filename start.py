@@ -1,20 +1,24 @@
-import os, sys, time
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ClerkFoodhub.settings")
-sys.path.insert(0, os.getcwd())
+import os, sys, time, datetime
 import django
 django.setup()
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ClerkFoodhub.settings")
+sys.path.insert(0, os.getcwd())
 from django.core.management import call_command
 from django.contrib.auth import get_user_model
-print('2134')
 
-def get_user():
-    while True:
-        try:
-            uuser = get_user_model()
-            return uuser
-        except:
-            time.sleep(10)
-User = get_user()
+# def get_user():
+#     while True:
+#         try:
+#             uuser = get_user_model()
+#             return uusersite_settings_district
+#         except:
+#             time.sleep(10)
+User = get_user_model()
+
+def _vait_time(t):
+    for i in range(t):
+        print(t-i)
+
 
 def create_main_user():
     try:
@@ -28,66 +32,94 @@ def create_main_user():
     except NameError:
         print('Environment variable "PASS" not found\nSet as default variable "root".')
         PASS = 'root'
-    print('__________It`s new run______')
-    call_command("migrate", interactive=False)
     User.objects.create_superuser(USER, 'admin@myproject.com', PASS)
 
 def update_caterings():
-    call_command("imperial-food")
-
+    try:
+        from catering.models import Food, CategoryFood, Provider
+        oldfood = Food.objects.filter(category__provider__title='Imperial Food', date_add__lte=(datetime.datetime.now() - datetime.timedelta(days=10)))
+        imperial_all = Food.objects.filter(category__provider__title='Imperial Food')
+        if len(imperial_all) == 0 or len(oldfood) > 0:
+            print('Треба оновити данні кетерінгів')
+            call_command("imperial-food")
+        else:
+            print('Данні з кетерінгів знадені')
+    except ImportError:
+        exit('Помилка бази данних')
 
 def run_django():
-    print('All data was updated.\nNow RUN.')
+    print('Усе готово до запуску')
     call_command("runserver", "0.0.0.0:8000")
 
 
-def load_demo():
-    call_command("migrate", interactive=False)
-    print('Try load data to DB site_settings')
-    call_command('loaddata', 'site_settings')
-    print('Try load data to DB users')
-    call_command('loaddata', 'users')
-    update_caterings()
-    print('Try load data to DB cart')
-    call_command('loaddata', 'cart')
-
-def start():
+def add_users():
     try:
-        from users.models import CustomUser
-        if len(User.objects.all()) >= 1:
-            print(f'User is more 0 now it`s {len(User.objects.all())}')
-            update_caterings()
-            run_django()
-        else:
-            if os.getenv('LOAD_DEMO_DATA'):
-                print('Try load data to DB')
-                load_demo()
-                print('Data  will load at DB')
-            else:
-                create_main_user()
-                update_caterings()
-    except Exception as ex:
-        print(f'Exception is {ex}')
-        if os.getenv('LOAD_DEMO_DATA'):
-            load_demo()
-            print('Data  will load at DB')
+        demo = os.getenv('LOAD_DEMO_DATA')
+        if demo:
+            call_command('loaddata', 'users')
+            call_command('loaddata', 'cart')
+            print('Демо данні користуачів та корзини були успішно завнатажені')
         else:
             create_main_user()
-            update_caterings()
-    finally:
-        call_command("runserver", "0.0.0.0:8000")
+    except NameError:
+        create_main_user()
+
+def add_default_settings():
+    try:
+        from site_settings.models import District
+        if len(District.objects.all()) == 0:
+            print('Не знадено районів у базі данних -> Спробуємо завантажити райони')
+            call_command('loaddata', 'site_settings')
+        else:
+            print('Всі райони знаййдено. Можемо продовжувати')
+    except Exception as ex:
+        print(f'Помилка району {ex}')
+        call_command('makemigrations', 'site_settings')
+        call_command('migrate', 'site_settings', interactive=False)
+        call_command('loaddata', 'site_settings')
+
+def first_start():
+    call_command('makemigrations', interactive=False)
+    call_command("migrate", interactive=False)
+    add_default_settings()
+    update_caterings()
+    add_users()
+    run_django()
+
+
+def non_first_start(allUsers):
+    if len(allUsers) > 0:
+        update_caterings()
+        _vait_time(5)
+        run_django()
+    else:
+        update_caterings()
+        add_users()
+        run_django()
+
+def start():
+    # validate database
+    try:
+        from users.models import CustomUser
+        non_first_start(CustomUser.objects.all())
+    except Exception as ex:
+        print(f'Перший запуск! Помилка {ex}')
+        first_start()
+        # call_command('makemigrations', interactive=False)
+        # call_command("migrate", interactive=False)
 
 
 if __name__ == '__main__':
-    counter: int = 0
-    while True:
-        try:
-            start()
-            break
-        except Exception as exc:
-            if counter == 10:
-                exit('More 10 try`s')
-            else:
-                counter += 1
-                print(f'Exceptions - {exc}')
-                time.sleep(10)
+    start()
+    # counter: int = 0
+    # while True:
+    #     try:
+    #         start()
+    #         break
+    #     except Exception as exc:
+    #         if counter == 10:
+    #             exit('More 10 try`s')
+    #         else:
+    #             counter += 1
+    #             print(f'Exceptions - {exc}')
+    #             time.sleep(10)
