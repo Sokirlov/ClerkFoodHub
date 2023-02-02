@@ -1,46 +1,125 @@
-import os, sys, time
-import subprocess
+import os, sys, time, datetime
+import django
+django.setup()
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ClerkFoodhub.settings")
 sys.path.insert(0, os.getcwd())
-import django
 from django.core.management import call_command
-django.setup()
 from django.contrib.auth import get_user_model
+
+# def get_user():
+#     while True:
+#         try:
+#             uuser = get_user_model()
+#             return uusersite_settings_district
+#         except:
+#             time.sleep(10)
 User = get_user_model()
 
-USER = os.getenv('ADM_USER')
-PASS = os.getenv('ADM_PASS')
+def _vait_time(t):
+    for i in range(t):
+        print(t-i)
 
 
+def create_main_user():
+    try:
+        USER = os.getenv('ADM_USER')
+    except NameError:
+        print('Environment variable "USER" not found\nSet as default variable "root".')
+        USER = 'root'
+
+    try:
+        PASS = os.getenv('ADM_PASS')
+    except NameError:
+        print('Environment variable "PASS" not found\nSet as default variable "root".')
+        PASS = 'root'
+    User.objects.create_superuser(USER, 'admin@myproject.com', PASS)
+
+def update_caterings():
+    try:
+        from catering.models import Food, CategoryFood, Provider
+        oldfood = Food.objects.filter(category__provider__title='Imperial Food', date_add__lte=(datetime.datetime.now() - datetime.timedelta(days=10)))
+        imperial_all = Food.objects.filter(category__provider__title='Imperial Food')
+        if len(imperial_all) == 0 or len(oldfood) > 0:
+            print('Треба оновити данні кетерінгів')
+            call_command("imperial-food")
+        else:
+            print('Данні з кетерінгів знадені')
+    except ImportError:
+        exit('Помилка бази данних')
+
+def run_django():
+    print('Усе готово до запуску')
+    call_command("runserver", "0.0.0.0:8000")
+
+
+def add_users():
+    try:
+        demo = os.getenv('LOAD_DEMO_DATA')
+        if demo:
+            call_command('loaddata', 'users')
+            call_command('loaddata', 'cart')
+            print('Демо данні користуачів та корзини були успішно завнатажені')
+        else:
+            create_main_user()
+    except NameError:
+        create_main_user()
+
+def add_default_settings():
+    try:
+        from site_settings.models import District
+        if len(District.objects.all()) == 0:
+            print('Не знадено районів у базі данних -> Спробуємо завантажити райони')
+            call_command('loaddata', 'site_settings')
+        else:
+            print('Всі райони знаййдено. Можемо продовжувати')
+    except Exception as ex:
+        print(f'Помилка району {ex}')
+        call_command('makemigrations', 'site_settings')
+        call_command('migrate', 'site_settings', interactive=False)
+        call_command('loaddata', 'site_settings')
+
+def first_start():
+    call_command('makemigrations', interactive=False)
+    call_command("migrate", interactive=False)
+    add_default_settings()
+    update_caterings()
+    add_users()
+    run_django()
+
+
+def non_first_start(allUsers):
+    if len(allUsers) > 0:
+        update_caterings()
+        _vait_time(5)
+        run_django()
+    else:
+        update_caterings()
+        add_users()
+        run_django()
 
 def start():
+    # validate database
     try:
         from users.models import CustomUser
-        print(f' {len(User.objects.all())} CustomUser = {len(CustomUser.objects.all())}')
-        # from users.models import CustomUser
-        if len(User.objects.all()) >= 1:
-            call_command("runserver", "0.0.0.0:8000")
-        else:
-            print('----- ITS else work\n\n\n')
-            call_command("migrate", interactive=False)
-            User.objects.create_superuser(USER, 'admin@myproject.com', PASS)
-            call_command("imperial-food")
-            print('food is parsed well')
-            call_command("runserver", "0.0.0.0:8000")
-            # from django.contrib.auth import get_user_model
-            # User = get_user_model()
-            # subprocess.run(f"python manage.py createsuperuser && {USER} &&  && {PASS} && {PASS} && y")
-            # subprocess.run("python manage.py runserver 0.0.0.0:8000")
-    except:
-        print('!!!!!!! EXCEPTION work\n\n\n')
-        call_command("migrate", interactive=False)
-        User.objects.create_superuser(USER, 'admin@myproject.com', PASS)
-        call_command("runserver", "0.0.0.0:8000")
+        non_first_start(CustomUser.objects.all())
+    except Exception as ex:
+        print(f'Перший запуск! Помилка {ex}')
+        first_start()
+        # call_command('makemigrations', interactive=False)
+        # call_command("migrate", interactive=False)
 
-if __name__=='__main__':
-    while True:
-        try:
-            start()
-            break
-        except:
-            time.sleep(10)
+
+if __name__ == '__main__':
+    start()
+    # counter: int = 0
+    # while True:
+    #     try:
+    #         start()
+    #         break
+    #     except Exception as exc:
+    #         if counter == 10:
+    #             exit('More 10 try`s')
+    #         else:
+    #             counter += 1
+    #             print(f'Exceptions - {exc}')
+    #             time.sleep(10)

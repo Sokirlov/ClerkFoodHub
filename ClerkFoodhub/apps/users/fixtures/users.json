@@ -1,0 +1,156 @@
+[
+  {
+    "model": "users.company",
+    "pk": 1,
+    "fields": {
+      "title": "Назва компанії",
+      "district": 6,
+      "adress": null
+    }
+  },
+  {
+    "model": "users.departament",
+    "pk": 1,
+    "fields": {
+      "company": 1,
+      "title": "Відділ розробки",
+      "date_add": "2023-01-10T18:15:25.753Z",
+      "ordering": 0
+    }
+  },
+  {
+    "model": "users.departament",
+    "pk": 2,
+    "fields": {
+      "company": 1,
+      "title": "Відділ дизайну",
+      "date_add": "2023-01-10T18:15:35.501Z",
+      "ordering": 0
+    }
+  },
+  {
+    "model": "users.departament",
+    "pk": 3,
+    "fields": {
+      "company": 1,
+      "title": "Адміністративний відділ",
+      "date_add": "2023-01-10T18:15:43.119Z",
+      "ordering": 0
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$fpEnNJ3QditVDMv9cLmUM3$aXE++DuPwugBhkoLAGZCvdaQ+MrjHto9M9B684jfoRE=",
+      "last_login": "2023-01-24T10:50:37Z",
+      "is_superuser": true,
+      "username": "root",
+      "first_name": "Степан",
+      "last_name": "Бандера",
+      "email": "banda@company.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2022-12-27T14:00:09Z",
+      "departament": 1,
+      "job_title": null,
+      "phone": "6666666666",
+      "avatar": "",
+      "ordering": 0,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$hoOAUD1YLnF2sJbabu1yrO$Txr6Bmra9k3+vVNKSJuZ1Dgn/2v/Yom4t8FkQXC3CsM=",
+      "last_login": "2023-01-23T10:58:51Z",
+      "is_superuser": false,
+      "username": "Olesy",
+      "first_name": "Олесь",
+      "last_name": "Подгорець",
+      "email": "oles@company.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2023-01-10T18:18:38Z",
+      "departament": 1,
+      "job_title": null,
+      "phone": null,
+      "avatar": "",
+      "ordering": 0,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$kkZxrAeWPn7DPVVpAVh8Z7$/fPU2P4m7c3a4a8YrJ/KTHYVloZ0t1uwOLUFZfKlR9g=",
+      "last_login": "2023-01-23T10:59:51Z",
+      "is_superuser": false,
+      "username": "Andriy",
+      "first_name": "Андрій",
+      "last_name": "Андіїв",
+      "email": "andy@company.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2023-01-10T18:19:28Z",
+      "departament": 2,
+      "job_title": null,
+      "phone": "000000000",
+      "avatar": "",
+      "ordering": 0,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 4,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$4GCmGqx1PC6or907R9Kssb$thv1OFLnqnEq5ci69HKRHMGnf7Z+IJ0oUBMSjP0ih2k=",
+      "last_login": "2023-01-23T11:00:27Z",
+      "is_superuser": false,
+      "username": "Mavka",
+      "first_name": "Мавка",
+      "last_name": "Закарпатськаа",
+      "email": "mavka@company.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2023-01-10T18:20:09Z",
+      "departament": 2,
+      "job_title": null,
+      "phone": "3333333333",
+      "avatar": "",
+      "ordering": 0,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 5,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$20uq47rJlYBxnm1NxxxqcH$etBi2OheGmHzjMOWBtM/IYU8Os5ONcT6eCKitqGGQc4=",
+      "last_login": "2023-01-23T11:01:03Z",
+      "is_superuser": false,
+      "username": "Sveta",
+      "first_name": "Світлана",
+      "last_name": "Соловей",
+      "email": "svet@company.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2023-01-10T18:20:47Z",
+      "departament": 3,
+      "job_title": null,
+      "phone": "1111111111",
+      "avatar": "",
+      "ordering": 0,
+      "groups": [],
+      "user_permissions": []
+    }
+  }
+]

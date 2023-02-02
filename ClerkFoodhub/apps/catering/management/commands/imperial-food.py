@@ -13,6 +13,7 @@ except:
 category = {}
 
 
+##TODO  Get from caterig waight of food
 class Dishes:
     def pars_food(self, soup, cat, cat_name):
         # category, title, description, price, buy_link, image, link, id_sort, is_active, date_add, last_update
@@ -26,6 +27,7 @@ class Dishes:
             link = 'https://food.imperialcatering.com.ua' + rows.find('a', class_="dish-title")['href']
             title = re.sub("\"", "", rows.find('h3').text.strip())
             descr = rows.find('p', class_="dish-consist").text.strip()
+            weight = rows.find('div', class_="dish-weight").text.strip()
             price = re.sub(" грн", "", rows.find('p', class_="dish-price").text.strip())
             try:
                 food_valdate = Food.objects.get(category=category, title=title)
@@ -34,6 +36,7 @@ class Dishes:
                 Food.objects.create(category=category,
                                     title=title,
                                     description=descr,
+                                    weight=weight,
                                     price=price,
                                     image=image,
                                     buy_link=f'https://food.imperialcatering.com.ua{link_buy}',

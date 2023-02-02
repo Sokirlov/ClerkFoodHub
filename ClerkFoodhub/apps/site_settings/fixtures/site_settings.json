@@ -1,0 +1,131 @@
+[
+  {
+    "model": "site_settings.city",
+    "pk": 1,
+    "fields": {
+      "title": "Київ",
+      "ordering": 0,
+      "date_add": "2022-12-26T20:25:13.481Z"
+    }
+  },
+  {
+    "model": "site_settings.region",
+    "pk": 1,
+    "fields": {
+      "city": 1,
+      "title": "Правий берег",
+      "ordering": 0,
+      "date_add": "2022-12-26T20:25:40.979Z"
+    }
+  },
+  {
+    "model": "site_settings.region",
+    "pk": 2,
+    "fields": {
+      "city": 1,
+      "title": "Лівий берег",
+      "ordering": 1,
+      "date_add": "2022-12-26T20:25:50.784Z"
+    }
+  },
+  {
+    "model": "site_settings.district",
+    "pk": 1,
+    "fields": {
+      "region": 1,
+      "title": "Оболонский",
+      "ordering": 0,
+      "date_add": "2022-12-26T20:26:11.423Z"
+    }
+  },
+  {
+    "model": "site_settings.district",
+    "pk": 2,
+    "fields": {
+      "region": 1,
+      "title": "Подільський",
+      "ordering": 0,
+      "date_add": "2022-12-26T20:26:26.883Z"
+    }
+  },
+  {
+    "model": "site_settings.district",
+    "pk": 3,
+    "fields": {
+      "region": 1,
+      "title": "Шевченківський",
+      "ordering": 0,
+      "date_add": "2022-12-26T20:26:42.762Z"
+    }
+  },
+  {
+    "model": "site_settings.district",
+    "pk": 4,
+    "fields": {
+      "region": 1,
+      "title": "Солом'янський",
+      "ordering": 0,
+      "date_add": "2022-12-26T20:26:54.114Z"
+    }
+  },
+  {
+    "model": "site_settings.district",
+    "pk": 5,
+    "fields": {
+      "region": 1,
+      "title": "Печерский",
+      "ordering": 0,
+      "date_add": "2022-12-26T20:27:25.829Z"
+    }
+  },
+  {
+    "model": "site_settings.district",
+    "pk": 6,
+    "fields": {
+      "region": 1,
+      "title": "Голосіївський",
+      "ordering": 0,
+      "date_add": "2022-12-26T20:28:05.565Z"
+    }
+  },
+  {
+    "model": "site_settings.district",
+    "pk": 7,
+    "fields": {
+      "region": 1,
+      "title": "Святошинский",
+      "ordering": 0,
+      "date_add": "2022-12-26T20:28:16.516Z"
+    }
+  },
+  {
+    "model": "site_settings.district",
+    "pk": 8,
+    "fields": {
+      "region": 2,
+      "title": "Деснянский",
+      "ordering": 0,
+      "date_add": "2022-12-26T20:28:40.871Z"
+    }
+  },
+  {
+    "model": "site_settings.district",
+    "pk": 9,
+    "fields": {
+      "region": 2,
+      "title": "Дніпровський",
+      "ordering": 0,
+      "date_add": "2022-12-26T20:28:56.317Z"
+    }
+  },
+  {
+    "model": "site_settings.district",
+    "pk": 10,
+    "fields": {
+      "region": 2,
+      "title": "Дарницький",
+      "ordering": 0,
+      "date_add": "2022-12-26T20:29:07.279Z"
+    }
+  }
+]

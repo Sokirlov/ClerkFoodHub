@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load catering_tags %}
+{% block title %}SplitWise{% endblock %}
+{% block header %}{% endblock %}
+{% block content %}
+    <div class="container">
+    <table width="100%" cellpadding="5px">
+    <tr>
+        <th>Користувач</th>
+        <th>Он заплатил за меня</th>
+        <th>Я заплатил за него</th>
+        <th>Баланс</th>
+    </tr>
+    
+{% for login, data in payed_orders.items %}
+
+    <tr class="{% if data.balance < 0  %}text-danger list-group-item-warning{% endif %}">
+        <td>{{ data.user }}</td>
+        <td>{{ data.payments }}</td>
+        <td>{{ data.debit }}</td>
+        <td>
+            <a title="{% if data.balance > 0  %}
+                он мне должен
+            {% else %}
+                я ему должен
+            {% endif %}">
+            {{ data.balance }} грн</a>
+        </td>
+
+    </tr>
+
+{% endfor %}
+</table>
+    </div>
+{% endblock %}

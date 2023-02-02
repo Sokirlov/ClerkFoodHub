@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Log-in{% endblock %}
+{% block header %}
+    <style>
+        .login-form {
+            width: 400px;
+            margin: auto;
+        }
+
+        form p {
+            display: flex;
+        }
+
+        p input {
+            flex: 1;
+            margin-left: 10px;
+        }
+
+        #login_button {
+            margin: 20px 0 0 0;
+        }
+
+        #reset_login {
+            width: 400px;
+            margin: auto;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    {#    <div style="height: 70px"> </div>#}
+    <div>
+        <h1 style="text-align: center; margin: 200px 0 0 0; font-size: 12vw">Cle<span
+                style="transform: scale(-1, 1);">r</span>k <span style="color: green;">Foo<span
+                style="letter-spacing: -45px">d</span></span>hub</h1>
+    </div>
+
+    {% if form.errors %}
+        <p style="text-align: center; color: red; ">
+            Ім'я та пароль не підходять !
+{#            Your username and password didn't match.#}
+{#            Please try again.#}
+        </p>
+    {% else %}
+        <p style="text-align: center;">Увійдіть у систему:</p>
+    {% endif %}
+    <div class="login-form">
+        <form action="{% url 'login' %}" method="post">
+            {% for f in form %}
+                {{ f }}
+            {% endfor %}
+{#            {{ form.as_table }}#}
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next }}"/>
+            <p><input id="login_button" type="submit" value="Увійти"></p>
+        </form>
+    </div>
+
+    {#<p id="reset_login"><a href="{% url 'password_reset' %}">Lost password?</a> &nbsp; | &nbsp; <a href="{% url 'accounts:signup' %}">Registration</a></p>#}
+{% endblock %}

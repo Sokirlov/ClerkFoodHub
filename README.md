@@ -1,21 +1,28 @@
-# Hello, it's my pet project Foods HUB
-### The project is designed to help order food to the office and offset between employees
+# Привіт, це Clerk Foodhub він ще На стадії розробки 
+### Він допоможе замовляти їжу в офіс для себе та колег. Розділти рахунки та слідкувати за боргами.
 
 
-For start project you need have the Docker.
-1. run the command `"git clone https://github.com/Sokirlov/ImperialFoodPars.git"`
-2. create the file dev.env in directory ImperialFoodPars
-3. Add the following content to the `dev.env`
+Щоб спробувати проект вам потрібно мати Docker.
+1. Завантажте проект, для цього виконате команду`git clone https://github.com/Sokirlov/ImperialFoodPars.git`
+2. Відкрите сомандну строку у завантаженій папці 
+3. Виконате команду `docker-compose --env-file dev.env up --build`
+4. Проект автоматично запуститься та завантажить демонстраціні данні. 
+
+
+
+#### Для налаштувань редагуйте dev.env файл 
+
+1. У фалі `dev.env` такі налаштування
 ```dev.env
 PYTHONDONTWRITEBYTECODE=1
 PYTHONUNBUFFERED=1
 DJANGO_SETTINGS_MODULE=ClerkFoodhub.settings
 
-POSTGRES_DB= write here your database name
-POSTGRES_USER= write here user for database
-POSTGRES_PASSWORD= write here password for database
-ADM_USER= write here SuperAdministrator name
-ADM_PASS= write here SuperAdministrator password
+POSTGRES_DB= database name
+POSTGRES_USER= database user
+POSTGRES_PASSWORD= database password
+ADM_USER= SuperAdministrator name in Django
+ADM_PASS= SuperAdministrator password in Django
+LOAD_DEMO_DATA=  True for add demo data
 ```
-4. run the command "docker-compose up --build"
-5. Project automatic add Super User and update data from caterings base
+

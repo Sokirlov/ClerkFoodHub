@@ -17,7 +17,7 @@ class Provider(models.Model):
     id_sort = models.PositiveSmallIntegerField('Сортування', default=0)
     date_add = models.DateField(auto_now_add=True)
     min_order = models.PositiveSmallIntegerField('Мінімальне замовлення', default=0)
-    district = models.ManyToManyField(District, verbose_name='Обслуговування', null=True, blank=True)
+    district = models.ManyToManyField(District, verbose_name='Обслуговування', blank=True)
 
     class Meta:
         ordering = ['id_sort']
@@ -58,10 +58,11 @@ class Food(models.Model):
     "category", "title", "description", "price", "buy_link", "image", "link", "id_sort", "is_active", "date_add", "last_update"
 
     """
-
+    ##TODO  Get from caterig waight of food
     category = models.ForeignKey(CategoryFood, on_delete=models.DO_NOTHING, related_name='foods', verbose_name='Категорія страви')
     title = models.CharField('Страва', max_length=200)
     description = models.TextField('Інгрідієнти', null=True, blank=True)
+    weight = models.CharField('Вага', max_length=10, null=True, blank=True, default=0)
     price = models.DecimalField('Ціна', max_digits=6, decimal_places=2)
     buy_link = models.CharField('Посилання на додавання\nУ кошик', max_length=300, null=True, blank=True)
     image = models.CharField('Світлина', max_length=300, null=True, blank=True)

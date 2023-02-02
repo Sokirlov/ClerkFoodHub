@@ -1,22 +1,178 @@
 {% extends "base.html" %}
 {% load catering_tags %}
-{% block title %}{% endblock %}
+{% block title %}Замовлення на:{% endblock %}
 {% block header %}
+    <style>
+    .cat-container{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .cart{
+        position: fixed;
+        top: 50px;
+        right: 0px;
+        background: #cccccc;
+        border: blueviolet 1px;
+        border-radius: 3px;
+        padding: 20px 10px;
+    }
+    .food_image{
+        min-width: 100px;
+        width: 100px;
+        height: 100px;
+        overflow: hidden;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;"
+    }
+    .food_block{
+        width: 24%;
+        border: 1px solid #ccc;
+        position: relative;
+        min-width: 300px;
+    }
+    .food_category:nth-child(2n){
+        background-color: rgba(150,150,150,0.1);
+    }
+    h1{
+        text-decoration: underline;
+        text-transform: uppercase;
+    }
+    .food_name{
+        font-size: 24px;
+        font-weight: 600;
+    }
+    .price{
+        font-size: 25px;
+        font-weight: 600;
+        text-align: right;
+    }
+    em{
+        position: absolute;
+        bottom: 0;
+        left: 10px;
+        font-size: 12px;
+    }
+    #cart_order input{
+        width: 40px;
+    }
+    .deleting{
+        cursor: pointer;
+    }
+    .text-decoration-line-through{
+        text-decoration: line-through red;
+        opacity: 0.3;
+    }
+    </style>
+    <script>
+        function validate_count() {
+            console.log('workedd')
+            $('input').each(function () {
+                if ($(this).val() == 0) {
+                    console.log('if', $('input').val())
+                    $(this).parent().parent().addClass('text-decoration-line-through')
+                } else {
+                    console.log('else', $('input').val())
+                    $(this).parent().parent().removeClass('text-decoration-line-through')
+                }
+            })
+
+        }
+
+        $(document).ready(function () {
+            $('.cart_add').click(function () {
+                let food_id = $(this).attr('food_id')
+                let food_name = $(this).attr('food_name')
+                let container = $(this).parent('.cart_btn')
+                let count = container.children('input').val()
+                $('#cart_order').append(function () {
+                    let food_in_cart = $('input[name="' + food_id + '"]')
+                    if (food_in_cart.length > 0) {
+                        let new_quant = parseInt(food_in_cart.val()) + 1
+                        food_in_cart.val(new_quant).attr('type', 'number').attr('value', new_quant)
+                        validate_count()
+                    } else {
+                        $(this).append('<tr><td><span class="cart_food_name">' + food_name + '</span></td>' +
+                            '<td><input type="number" name="' + food_id + '" value="' + count + '"></td>' +
+                            '<td>&nbsp;<span class="deleting" name="' + food_id + '">x</span></td>' +
+                            '</tr>')
+                    }
+                })
+            })
+            {#$('.deleting').click(function () {#}
+            $('#cart_order').on('click', '.deleting', function(){
+                console.log('deliting click')
+                $('input[name="' + $(this).attr("name") + '"]').val(0).attr('value', 0)
+                validate_count()
+            })
+            $('#cart_order').on('click', 'input', function () {
+                validate_count()
+            })
+        });
+    </script>
 {% endblock %}
 {% block content %}
     <div style="height: 60px;">&nbsp;</div>
-    <div class="row w-100">
-    <div class="col-1">&nbsp;</div>
-    {% for provider in providers %}
-        <div class="ml-5">
-            <h1 style="text-decoration: underline; text-transform: uppercase;">{{ provider }}</h1>
-            {% for cat in provider.categorysfoods.all %}
-                <div class="w-75"><h2>{{ cat.id }} - {{ cat }}</h2>
-                {% for foo in cat.foods.all %}
-                - {{ foo }}, &nbsp;
-                {% endfor %}
+    <div class="w-100 d-flex flex-colomn">
+{#    <div class="col-1">&nbsp;</div>#}
+    <div class="col-10">
+        {% for provider in providers %}
+            <div class="">
+                <h1 class="ml-5">{{ provider }}</h1>
+                <div class="accordion accordion-flush" id="accordionFlushFood">
+                    {% for cat in provider.categorysfoods.all %}
+                        {% if cat.foods.all %}
+                            <div class="w-100 mt-1 pl-5 p-2 food_category accordion-item">
+                                <a class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse_{{ provider |slugify }}_{{ forloop.counter }}" aria-expanded="false" aria-controls="flush-collapse_{{ provider|slugify }}_{{ forloop.counter }}">
+                                    <h2 class="accordion-header" id="flush-heading_{{ provider|slugify }}_{{ forloop.counter }}">{{ cat }}</h2>
+                                </a>
+                                <div id="flush-collapse_{{ provider|slugify }}_{{ forloop.counter }}" class="cat-container accordion-collapse collapse" aria-labelledby="flush-heading_{{ provider|slugify }}_{{ forloop.counter }}" data-bs-parent="#accordionFlushFood">
+                                    {% for foo in cat.foods.all %}
+                                        <div class="p-2 m-2 d-flex flex-row food_block">
+                                            <div class="food_image" style="background-image: url('{{ foo.image }}');">
+                                            </div>
+                                            <div class="pl-1 w-100">
+                                                <p class="food_name"><a href="{{ foo.link }}">{{ foo.title }}</a></p>
+                                                <p>{{ foo.description }}. <br>Вага:{{ foo.weight }}</p>
+                                                <div class="price">{{ foo.price }} грн</div>
+                                                <div class="cart_btn m-2">
+                                                    <div class="btn btn-success cart_add" food_id="{{ foo.id }}" food_name="{{ foo.title }}">Add to cart </div>
+                                                    <input class="w-25" type="number" value="1" >
+                                                </div>
+                                                <em>last_update {{ foo.last_update }}</em>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
-            {% endfor %}
-</div>
-    {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="col-3 cart">
+        <h4>Замовлення на: {{ order_day }}</h4>
+        <form method="post" name="DTAA">
+            {% csrf_token %}
+            <input type="hidden" name="order_day" value="{{ order_day }}">
+            <table id="cart_order">
+            {% if ordered %}
+                {% for ord in ordered %}
+                    <tr>
+                        <td><span class="cart_food_name{% if ord.payer %} text-success{% endif %}">{{ ord.food }}</span></td>
+                        <td><input type="number" name="{{ ord.food.id }}" value="{{ ord.quantity }}"{% if ord.payer %}disabled {% endif %}></td>
+                        <td>{% if ord.payer %}
+                        {% else %}
+                           &nbsp;<span class="deleting" name="{{ ord.food.id }}">x</span>
+                        {% endif %} </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            </table>
+             <input type="submit" value="Send order">
+        </form>
+
+    </div>
 {% endblock %}

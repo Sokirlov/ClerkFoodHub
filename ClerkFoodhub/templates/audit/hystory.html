@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load catering_tags %}
+{% block title %}SplitWise{% endblock %}
+{% block header %}{% endblock %}
+{% block content %}
+<div class="container">
+    {% for foo, bar in all_my_order.items %}
+        <p class="bg-secondary text-light p-1 pl-4">{{ foo }}</p>
+        <ul>
+        {% for order in bar %}
+            <li class="d-flex justify-content-end w-100 border-bottom mt-2 {% if order.payer == request.user %}text-success{% elif order.payer %}text-danger{% endif %}">
+                <div class="m-1 mx-3">{{ forloop.counter }}.</div>
+                <div class="m-1 mx-3">{{ order.food }}</div>
+                <div class="m-1 mx-3 ml-auto">{{ order.food.price }} грн</div>
+                <div class="m-1 mx-3">{{ order.quantity }} од.</div>
+                <div class="m-1 mx-3">{{ order.payer }}</div>
+            </li>
+        {% endfor %}
+        </ul>
+    {% endfor %}
+</div>
+{% endblock %}

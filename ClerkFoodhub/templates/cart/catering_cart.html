@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% load catering_tags %}
+{% block title %}SplitWise{% endblock %}
+{% block header %}
+    <script>
+        function get_sums(){
+            let prov_order = {'all':0}
+            $("input:checked").each(function () {
+                let ord = $(this).attr('price_chek')
+                let prov = $(this).attr('provider')
+                if(prov in prov_order){
+                    prov_order[prov] += Number(ord.replace(',', '.'))
+                    prov_order['all'] += Number(ord.replace(',', '.'))
+                }else{
+                    prov_order[prov] = Number(ord.replace(',', '.'))
+                    prov_order['all'] += Number(ord.replace(',', '.'))
+                }
+                console.log(prov_order)
+            })
+            return prov_order
+        }
+        function write_data_summ(order_sum){
+            let validator_summ = []
+            let by_prov_string = ''
+            for(key in order_sum){
+                if(key=='all'){
+                    $('#all_order_sum').text(order_sum[key])
+                }else{
+                    {###TODO сделать чтоб сумма тянулась из провадера #}
+                    if(order_sum[key]<500){
+                        by_prov_string += ('<div class="border-left px-2 text-center text-danger providersum">' + key + '<br>' + order_sum[key] + ' грн</div>')
+                        validator_summ.push(false)
+                    }else {
+                        by_prov_string += ('<div class="border-left px-2 text-center text-success providersum">' + key + '<br>' + order_sum[key] + ' грн</div>')
+                        validator_summ.push(true)
+                    }
+                }
+            }
+            $('#by_providers').html(by_prov_string)
+            if(validator_summ.every(elem => elem == true)){
+                $('#submit_order').removeAttr('disabled')
+            }else{
+                $('#submit_order').attr('disabled', 'true')
+            }
+            console.log(validator_summ.every(elem => elem == true))
+        }
+        function falidate_sum(){
+            validator_summ.every(elem => elem == true)
+        }
+
+        $(document).ready(function () {
+            write_data_summ(get_sums())
+            $("input").click(function () {
+                let ord = write_data_summ(get_sums())
+
+            })
+        })
+    </script>
+    <style>
+        .dep:nth-child(odd){
+            background: rgba(0,0,0,0.1);
+
+        }
+        .dep:last-child{
+            margin-bottom: 20px;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="mx-auto w-50">
+        <div class="card-header d-flex justify-content-between">
+            <h5 class="text-uppercase ">Сумма замовлення: <span id="all_order_sum"></span></h5>
+            <div class="d-flex" id="order_sum">
+
+                <div id="by_providers" class="d-flex"></div>
+            </div>
+        </div>
+    <form method="post">
+        {% csrf_token %}
+        {% for dep, users in my_order.items %}
+            <ul>
+            {% for user, providers in users.items %}
+                <li class="d-block">
+                <div class="w-100">&nbsp; &nbsp;<label>My order</label></div>
+                    {% for prov, order in providers.items %}
+                        <div class="d-flex justify-content-end">
+                            <div class="px-3 ">{{ prov }} </div>
+                            <div class="pr-3"><span class="order_sum">{{ order.order_sum }}</span>&nbsp;грн</div>
+                            <input type="checkbox" name='{{ order.order_id }}' price_chek="{{ order.order_sum }}" provider="{{ prov }}" checked>
+                        </div>
+                    {% endfor %}
+                </li>
+            {% endfor %}
+            </ul>
+        {% endfor %}
+
+
+        {% for dep, userset in orders_by_user.items %}
+            <div class="dep px-2 py-1">
+                <p class="border-bottom text-center mt-1 text-uppercase">{{ dep }}</p>
+                <ol>
+                    {% for username, providers in userset.items %}
+                        <li class="d-flex justify-content-between ">
+                            <div class="w-100">{{ forloop.counter }}. &nbsp;<label>{{ username }}</label>
+                                {% for provider, user  in providers.items %}
+                                    <div class="d-flex justify-content-end">
+                                        <div class="px-3">{{ provider }} </div>
+                                        <div class="px-3"><span class="order_sum">{{ user.order_sum }}</span>&nbsp;грн
+                                        </div>
+                                        <input type="checkbox" name="{{ user.order_id }}"
+                                               price_chek="{{ user.order_sum }}" provider="{{ provider }}">
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ol>
+            </div>
+        {% endfor %}
+        <input type="submit" value="Оплатити заказ" class="w-100" id="submit_order">
+    </form>
+    </div>
+{#----------------------------------------------------------------------#}
+{#    <div>#}
+{#    {% for dep, users in my_order.items %}#}
+{#    <div>#}
+{#    <h3>{{ dep }}</h3>#}
+{#        {% for user, providers in users.items %}#}
+{#        <p>{{ user }}#}
+{#            <ul>#}
+{#            {% for provider, orders in providers.items %}#}
+{#            {{ provider }}#}
+{#            <li>#}
+{#                {{ orders }}#}
+{#            </li>#}
+{#            {% endfor %}#}
+{##}
+{#            </ul>#}
+{#        </p>#}
+{#        {% endfor %}#}
+{#    </div>#}
+{##}
+{#    {% endfor %}#}
+{##}
+{#    </div>#}
+{#    <p>&nbsp;<br></p>#}
+{#  --------------------------------------------------------------------------------  #}
+{% endblock %}
