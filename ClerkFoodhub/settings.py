@@ -1,12 +1,19 @@
 import os
 import sys
+from django.test.runner import DiscoverRunner
 import dj_database_url
+
+IS_HEROKU = "DYNO" in os.environ
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(__file__)
 sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
-SECRET_KEY = 'scmr3w$$ibcuw-82+8l=ds*u9_4zz=8fd2^jn)#0&g=ta)o@sx'
+SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
-ALLOWED_HOSTS = ['clerkfoodhub.herokuapp.com', '127.0.0.1', 'localhost']
+
+if IS_HEROKU:
+    ALLOWED_HOSTS = ["*"]
+else:
+    ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -49,22 +56,32 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
+MAX_CONN_AGE = 600
 DATABASES = {
-    'default': dj_database_url.parse(
-        os.getenv('JAWSDB_MARIA_URL'),
-        conn_max_age=500
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
 }
+
+if "DATABASE_URL" in os.environ:
+    # Configure Django for DATABASE_URL environment variable.
+    DATABASES["default"] = dj_database_url.config(
+        conn_max_age=MAX_CONN_AGE, ssl_require=True)
+
+    # Enable test database if found in CI environment.
+    if "CI" in os.environ:
+        DATABASES["default"]["TEST"] = DATABASES["default"]
+
+# DATABASES = {
+#     'default': dj_database_url.parse(
+#         os.getenv('JAWSDB_MARIA_URL'),
+#         conn_max_age=500
+#     )
+# }
 # DATABASES = {
 #
 #     'default': {
@@ -123,3 +140,23 @@ MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media/')
 CART_SESSION_ID = 'cart'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+# Enable WhiteNoise's GZip compression of static assets.
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+
+# Test Runner Config
+class HerokuDiscoverRunner(DiscoverRunner):
+    """Test Runner for Heroku CI, which provides a database for you.
+    This requires you to set the TEST database (done for you by settings().)"""
+
+    def setup_databases(self, **kwargs):
+        self.keepdb = True
+        return super(HerokuDiscoverRunner, self).setup_databases(**kwargs)
+
+
+# Use HerokuDiscoverRunner on Heroku CI
+if "CI" in os.environ:
+    TEST_RUNNER = "gettingstarted.settings.HerokuDiscoverRunner"
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
