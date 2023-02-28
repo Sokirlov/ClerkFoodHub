@@ -65,7 +65,6 @@ DATABASES = {
         'USER': os.getenv('DB_USER'),
         'PASSWORD': os.getenv('DB_PASSWORD'),
         'HOST': os.getenv('DB_URL'),
-        'default-character-set': 'utf8',
     }
 }
 # DATABASES = {
