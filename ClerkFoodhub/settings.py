@@ -1,5 +1,6 @@
 import os
 import sys
+import dj_database_url
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(__file__)
 sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
@@ -59,15 +60,24 @@ WSGI_APPLICATION = 'wsgi.application'
 #     }
 # }
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'HOST': os.getenv('DB_URL'),
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'PORT': 3306,
-    }
+    'default': dj_database_url.parse(
+        os.getenv('JAWSDB_MARIA_URL'),
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
 }
+# DATABASES = {
+#
+#     'default': {
+#         'CONN_MAX_AGE': 500,
+#         'ENGINE': 'django.db.backends.mysql',
+#         'HOST': os.getenv('DB_URL'),
+#         'NAME': os.getenv('DB_NAME'),
+#         'USER': os.getenv('DB_USER'),
+#         'PASSWORD': os.getenv('DB_PASSWORD'),
+#         'PORT': 3306,
+#     }
+# }
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
