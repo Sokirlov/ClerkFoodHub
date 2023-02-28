@@ -62,8 +62,7 @@ WSGI_APPLICATION = 'wsgi.application'
 DATABASES = {
     'default': dj_database_url.parse(
         os.getenv('JAWSDB_MARIA_URL'),
-        conn_max_age=600,
-        conn_health_checks=True,
+        conn_max_age=500
     )
 }
 # DATABASES = {
