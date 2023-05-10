@@ -195,8 +195,10 @@ def BuyOrderInCatering(request):
     order_day = request.GET.get('order_day')
     if not order_day:
         order_day = (datetime.datetime.now() + datetime.timedelta(days=1))
+    print('orderDay={}, request.user.departament.company={}'.format(order_day, request.user.departament.company))
     all_ordered_on_day = Orders.objects.filter(order_for_day=order_day,
                                                user__departament__company=request.user.departament.company, payer=None)
+    print('all_oreder', all_ordered_on_day)
     all_department = Departament.objects.filter(company=request.user.departament.company)
     my_order = _colapse_order_by_user(all_ordered_on_day.filter(user=request.user, payer=None))
     orders_by_user = _colapse_order_by_user(all_ordered_on_day.exclude(user=request.user))

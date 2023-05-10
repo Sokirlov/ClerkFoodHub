@@ -14,6 +14,13 @@ services:
     networks:
       - mainnetwork
 
+  redis:
+    image: redis
+    restart: always
+    networks:
+      - mainnetwork
+
+
   web:
     build: .
     restart: on-failure
@@ -29,6 +36,28 @@ services:
     networks:
       - mainnetwork
     command: python start.py
+
+  worker:
+    build: .
+    restart: always
+    depends_on:
+      - web
+    env_file:
+      - dev.env
+    networks:
+      - mainnetwork
+    command: ['celery', '-A', 'ClerkFoodhub', 'worker']
+
+  beats:
+    build: .
+    restart: always
+    depends_on:
+      - web
+    env_file:
+      - dev.env
+    networks:
+      - mainnetwork
+    command: ['celery', '-A', 'ClerkFoodhub', 'beat', '-l', 'info']
 
 networks:
   mainnetwork:

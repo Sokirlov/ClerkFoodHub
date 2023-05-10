@@ -37,7 +37,8 @@ def create_main_user():
 def update_caterings():
     try:
         from catering.models import Food, CategoryFood, Provider
-        oldfood = Food.objects.filter(category__provider__title='Imperial Food', date_add__lte=(datetime.datetime.now() - datetime.timedelta(days=10)))
+        oldfood = Food.objects.filter(category__provider__title='Imperial Food',
+                                      date_add__lte=(datetime.datetime.now() - datetime.timedelta(days=10)))
         imperial_all = Food.objects.filter(category__provider__title='Imperial Food')
         if len(imperial_all) == 0 or len(oldfood) > 0:
             print('Треба оновити данні кетерінгів')
