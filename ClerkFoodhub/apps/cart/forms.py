@@ -4,10 +4,10 @@ from .models import Orders
 
 username = str(datetime.datetime.now().timestamp())
 
+
 class OrdersForm(forms.ModelForm):
 
-
-    class Meta():
+    class Meta:
         model = Orders
         fields = '__all__'
         # widgets = {

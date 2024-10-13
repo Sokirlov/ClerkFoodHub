@@ -53,8 +53,8 @@ WSGI_APPLICATION = 'wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-if os.getenv("DB_SERCICE") == 'postrgresql':
-    DATABASES["default"] = {
+DATABASES = {
+    "default": {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': os.getenv('DB_NAME'),
         'USER': os.getenv('DB_USER'),
@@ -62,21 +62,8 @@ if os.getenv("DB_SERCICE") == 'postrgresql':
         'HOST': os.getenv('DB_URL'),
         'PORT': 5432,
     }
-elif os.getenv("DB_SERCICE") == 'mysql':
-    DATABASES["default"] = {
-        'CONN_MAX_AGE': 500,
-        'ENGINE': 'django.db.backends.mysql',
-        'HOST': os.getenv('DB_URL'),
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'PORT': 3306,
-    }
-else:
-    DATABASES['default'] = {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+}
+
 
 
 AUTH_PASSWORD_VALIDATORS = [

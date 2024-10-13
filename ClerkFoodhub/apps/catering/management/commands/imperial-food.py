@@ -78,6 +78,7 @@ class Dishes:
         #     pars_food(soup, cat)
 
 
+    @staticmethod
     def get_pages():
         headers = {
             'authority': 'www.kith.com',
@@ -98,7 +99,6 @@ class Dishes:
             return response
         else:
             print("Bad result")
-
 
     def __init__(self, *args, **kwargs):
         return self.__dict__.update(kwargs)
