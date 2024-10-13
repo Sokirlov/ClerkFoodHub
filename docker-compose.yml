@@ -23,7 +23,7 @@ services:
       - local_network
 
 
-  web:
+  clerkfoodhub:
     build: .
     restart: on-failure
     depends_on:
@@ -44,7 +44,7 @@ services:
     build: .
     restart: always
     depends_on:
-      - web
+      - clerkfoodhub
     env_file:
       - dev.env
     networks:
@@ -55,7 +55,7 @@ services:
     build: .
     restart: always
     depends_on:
-      - web
+      - clerkfoodhub
     env_file:
       - dev.env
     networks:
