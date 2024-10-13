@@ -1,12 +1,10 @@
 version: "3.9"
 services:
-  db:
+  db_clerk:
     image: postgres
     container_name: 'db_clerk'
     volumes:
       - ./data/db:/var/lib/postgresql/data
-#    env_file:
-#      - dev.env
     environment:
       POSTGRES_PASSWORD: $DB_PASSWORD
       POSTGRES_USER: $DB_USER
@@ -16,28 +14,29 @@ services:
       timeout: 3s
       retries: 5
     networks:
-      - mainnetwork
+      - local_network
 
   redis:
     image: redis
     restart: always
     networks:
-      - mainnetwork
+      - local_network
 
 
   web:
     build: .
     restart: on-failure
     depends_on:
-      db:
+      db_clerk:
         condition: service_healthy
     volumes:
       - .:/code
-    ports:
-      - "8000:8000"
+#    ports:
+#      - "8000:8000"
     env_file:
       - dev.env
     networks:
+      - local_network
       - mainnetwork
     command: python start.py
 
@@ -49,7 +48,7 @@ services:
     env_file:
       - dev.env
     networks:
-      - mainnetwork
+      - local_network
     command: ['celery', '-A', 'ClerkFoodhub', 'worker']
 
   beats:
@@ -60,9 +59,12 @@ services:
     env_file:
       - dev.env
     networks:
-      - mainnetwork
+      - local_network
     command: ['celery', '-A', 'ClerkFoodhub', 'beat', '-l', 'info']
 
 networks:
+  local_network:
+    driver: bridge
+    internal: true
   mainnetwork:
-    name: "mainnetwork"
+    external: true
