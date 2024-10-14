@@ -1,8 +1,15 @@
-import os, sys, time, datetime
+import os
+import sys
+import time
+import datetime
+import subprocess
 import django
+
 django.setup()
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ClerkFoodhub.settings")
 sys.path.insert(0, os.getcwd())
+
 from django.core.management import call_command
 from django.contrib.auth import get_user_model
 
@@ -14,6 +21,7 @@ from django.contrib.auth import get_user_model
 #         except:
 #             time.sleep(10)
 User = get_user_model()
+
 
 def _vait_time(t):
     for i in range(t):
@@ -51,7 +59,7 @@ def update_caterings():
 def run_django():
     print('Усе готово до запуску')
     # call_command("runserver", "0.0.0.0:8000")
-    call_command("gunicorn --workers 3 --timeout 1000 --bind :8008 ClerkFoodhub.wsgi:application")
+    subprocess.run("gunicorn --workers 3 --timeout 1000 --bind :8008 ClerkFoodhub.wsgi:application")
 
 
 def add_users():
