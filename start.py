@@ -58,8 +58,8 @@ def update_caterings():
 
 def run_django():
     print('Усе готово до запуску')
-    # call_command("runserver", "0.0.0.0:8000")
-    subprocess.run("gunicorn --workers 3 --timeout 1000 --bind :8008 ClerkFoodhub.ClerkFoodhub.wsgi:application")
+    call_command("runserver", "0.0.0.0:8008")
+    # subprocess.run("gunicorn --workers 3 --timeout 1000 --bind :8008 ClerkFoodhub.ClerkFoodhub.wsgi:application")
 
 
 def add_users():
