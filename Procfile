@@ -1,0 +1,1 @@
+web: gunicorn ClerkFoodhub.wsgi --log-file -

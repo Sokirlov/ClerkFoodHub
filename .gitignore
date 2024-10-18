@@ -74,6 +74,7 @@ cover/
 # Django stuff:
 config.py
 .env
+.idea
 
 # Flask stuff:
 instance/
