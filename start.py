@@ -30,13 +30,13 @@ def _vait_time(t):
 
 def create_main_user():
     try:
-        USER = os.getenv('ADM_USER')
+        USER = os.getenv('CLERK_ADM_USER')
     except NameError:
         print('Environment variable "USER" not found\nSet as default variable "root".')
         USER = 'root'
 
     try:
-        PASS = os.getenv('ADM_PASS')
+        PASS = os.getenv('CLERK_ADM_PASS')
     except NameError:
         print('Environment variable "PASS" not found\nSet as default variable "root".')
         PASS = 'root'
@@ -64,7 +64,7 @@ def run_django():
 
 def add_users():
     try:
-        demo = os.getenv('LOAD_DEMO_DATA')
+        demo = os.getenv('CLERK_LOAD_DEMO_DATA')
         if demo:
             call_command('loaddata', 'users')
             call_command('loaddata', 'cart')

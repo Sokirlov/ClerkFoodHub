@@ -1,88 +1,145 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="13b4cfb0-c9a2-486c-a973-bb22ed26fc8f" name="Changes" comment="Parser-imperial-food">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+    <list default="true" id="13b4cfb0-c9a2-486c-a973-bb22ed26fc8f" name="Changes" comment="server">
+      <change beforePath="$PROJECT_DIR$/.idea/imperialfood_parse.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/imperialfood_parse.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ClerkFoodhub/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/ClerkFoodhub/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ChangesViewManager">
+    <option name="groupingKeys">
+      <option value="directory" />
+    </option>
+  </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2269OGF4PXxC0zvgdFnppfkkUcD" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="node.js.detected.package.eslint" value="true" />
-    <property name="node.js.selected.package.eslint" value="(autodetect)" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Django Server.django.executor": "Run",
+    "Docker.docker-compose-server.yml: Compose Deployment.executor": "Run",
+    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "server-fotka",
+    "last_opened_file_path": "/Users/sokirlov/PycharmProjects/1My_Projects/ClerkFoodHub",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "terminal",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/ClerkFoodhub/nginx" />
       <recent name="C:\Develop\imperialfood_parse" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.olx">
-    <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+  <component name="RunManager" selected="Docker.docker-compose-server.yml: Compose Deployment">
+    <configuration name="django" type="Python.DjangoServer" factoryName="Django server">
       <module name="imperialfood_parse" />
+      <option name="ENV_FILES" value="$PROJECT_DIR$/local.env" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DJANGO_SETTINGS_MODULE" value="ClerkFoodhub.settings" />
       </envs>
       <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.12 (ClerkFoodHub)" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
+      <EXTENSION ID="net.ashald.envfile">
+        <option name="IS_ENABLED" value="false" />
+        <option name="IS_SUBST" value="false" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" IS_EXECUTABLE="false" />
+        </ENTRIES>
+      </EXTENSION>
+      <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="8000" />
+      <option name="host" value="localhost" />
+      <option name="additionalOptions" value="" />
+      <option name="browserUrl" value="" />
+      <option name="runTestServer" value="false" />
+      <option name="runNoReload" value="false" />
+      <option name="useCustomRunCommand" value="false" />
+      <option name="customRunCommand" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="olx" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="imperialfood_parse" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/olx.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml" />
       <method v="2" />
     </configuration>
+    <configuration name="docker-compose-server.yml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="sourceFilePath" value="docker-compose-server.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Django Server.django" />
+      <item itemvalue="Docker.docker-compose-server.yml: Compose Deployment" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Docker.docker-compose-server.yml: Compose Deployment" />
         <item itemvalue="Python.olx" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-PY-242.23339.19" />
+        <option value="bundled-python-sdk-0029f7779945-399fe30bd8c1-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-242.23339.19" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -105,8 +162,221 @@
       <workItem from="1644569441020" duration="25000" />
       <workItem from="1644574434853" duration="2396000" />
       <workItem from="1644844479450" duration="2555000" />
+      <workItem from="1728890555789" duration="130000" />
+      <workItem from="1728890773505" duration="2533000" />
+      <workItem from="1729238384874" duration="7525000" />
+      <workItem from="1729329352057" duration="17451000" />
     </task>
+    <task id="LOCAL-00001" summary="Parser-imperial-food">
+      <option name="closed" value="true" />
+      <created>1728854344865</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1728854344865</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Parser-imperial-food">
+      <option name="closed" value="true" />
+      <created>1728854551141</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1728854551141</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Parser-imperial-food">
+      <option name="closed" value="true" />
+      <created>1728855415308</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1728855415308</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Parser-imperial-food">
+      <option name="closed" value="true" />
+      <created>1728891809560</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1728891809560</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Parser-imperial-food">
+      <option name="closed" value="true" />
+      <created>1728893652570</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1728893652570</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Parser-imperial-food">
+      <option name="closed" value="true" />
+      <created>1728894062455</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1728894062455</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Parser-imperial-food">
+      <option name="closed" value="true" />
+      <created>1728894138091</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1728894138091</updated>
+    </task>
+    <task id="LOCAL-00008" summary="heroku-1">
+      <option name="closed" value="true" />
+      <created>1729241059716</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1729241059716</updated>
+    </task>
+    <task id="LOCAL-00009" summary="heroku-1">
+      <option name="closed" value="true" />
+      <created>1729241080901</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1729241080901</updated>
+    </task>
+    <task id="LOCAL-00010" summary="heroku-1">
+      <option name="closed" value="true" />
+      <created>1729253999216</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1729253999216</updated>
+    </task>
+    <task id="LOCAL-00011" summary="heroku-1">
+      <option name="closed" value="true" />
+      <created>1729254307832</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1729254307832</updated>
+    </task>
+    <task id="LOCAL-00012" summary="heroku-1">
+      <option name="closed" value="true" />
+      <created>1729342674982</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1729342674982</updated>
+    </task>
+    <task id="LOCAL-00013" summary="heroku-1">
+      <option name="closed" value="true" />
+      <created>1729344624479</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1729344624479</updated>
+    </task>
+    <task id="LOCAL-00014" summary="heroku-1">
+      <option name="closed" value="true" />
+      <created>1729345611590</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1729345611590</updated>
+    </task>
+    <task id="LOCAL-00015" summary="heroku-1">
+      <option name="closed" value="true" />
+      <created>1729346650782</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1729346650782</updated>
+    </task>
+    <task id="LOCAL-00016" summary="heroku-1">
+      <option name="closed" value="true" />
+      <created>1729356033370</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1729356033370</updated>
+    </task>
+    <task id="LOCAL-00017" summary="heroku-1">
+      <option name="closed" value="true" />
+      <created>1729356396966</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1729356396966</updated>
+    </task>
+    <task id="LOCAL-00018" summary="heroku-1">
+      <option name="closed" value="true" />
+      <created>1729356969542</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1729356969542</updated>
+    </task>
+    <task id="LOCAL-00019" summary="heroku-1">
+      <option name="closed" value="true" />
+      <created>1729357809471</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1729357809471</updated>
+    </task>
+    <task id="LOCAL-00020" summary="heroku-1">
+      <option name="closed" value="true" />
+      <created>1729358900313</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1729358900313</updated>
+    </task>
+    <task id="LOCAL-00021" summary="heroku-1">
+      <option name="closed" value="true" />
+      <created>1729358982713</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1729358982713</updated>
+    </task>
+    <task id="LOCAL-00022" summary="heroku-1">
+      <option name="closed" value="true" />
+      <created>1729359035394</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1729359035394</updated>
+    </task>
+    <task id="LOCAL-00023" summary="heroku-1">
+      <option name="closed" value="true" />
+      <created>1729359337113</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1729359337113</updated>
+    </task>
+    <task id="LOCAL-00024" summary="server">
+      <option name="closed" value="true" />
+      <created>1729360252720</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1729360252720</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
+  </component>
+  <component name="TerminalProjectNonSharedOptionsProvider">
+    <envs>
+      <env key="ADM_PASS" value="root" />
+      <env key="ADM_USER" value="root" />
+      <env key="BROCKER_URL" value="'redis://redis:6379'" />
+      <env key="DB_NAME" value="clerckfood" />
+      <env key="DB_PASSWORD" value="password!23" />
+      <env key="DB_SERVICE" value="postrgresql" />
+      <env key="DB_URL" value="localhost" />
+      <env key="DB_USER" value="postgres" />
+      <env key="DJANGO_SETTINGS_MODULE" value="ClerkFoodhub.settings" />
+      <env key="LOAD_DEMO_DATA" value="True" />
+      <env key="PYTHONDONTWRITEBYTECODE" value="1" />
+      <env key="PYTHONUNBUFFERED" value="1" />
+    </envs>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
@@ -121,7 +391,12 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Parser-imperial-food" />
+    <MESSAGE value="heroku-1" />
+    <MESSAGE value="server" />
+    <option name="LAST_COMMIT_MESSAGE" value="server" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/imperialfood_parse$main.coverage" NAME="main Coverage Results" MODIFIED="1639733859007" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

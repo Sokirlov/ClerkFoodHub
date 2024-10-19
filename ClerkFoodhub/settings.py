@@ -61,10 +61,10 @@ WSGI_APPLICATION = 'wsgi.application'
 DATABASES = {
     "default": {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_URL'),
+        'NAME': os.getenv('CLERK_DB_NAME'),
+        'USER': os.getenv('CLERK_DB_USER'),
+        'PASSWORD': os.getenv('CLERK_DB_PASSWORD'),
+        'HOST': os.getenv('CLERK_DB_URL'),
         'PORT': 5432,
     }
 }
@@ -110,5 +110,5 @@ LOGOUT_REDIRECT_URL = '/'
 # Celery Configuration Options
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
-CELERY_BROKER_URL = os.getenv('BROCKER_URL', 'redis://localhost:6379')
+CELERY_BROKER_URL = os.getenv('CLERK_BROCKER_URL', 'redis://localhost:6379')
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
