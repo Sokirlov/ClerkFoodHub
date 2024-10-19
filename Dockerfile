@@ -21,5 +21,5 @@ RUN pip install -r requirements.txt
 COPY . /app/
 EXPOSE 8008
 
-RUN ["python", "start.py"]
+#CMD ["python", "start.py"]
 #CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
