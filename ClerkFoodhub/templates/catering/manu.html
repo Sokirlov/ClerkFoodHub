@@ -3,19 +3,31 @@
 {% block title %}Замовлення на:{% endblock %}
 {% block header %}
     <style>
-    .cat-container{
+    .cat-container {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
     }
+    .accordion-item {
+        border: solid 1px #eee;
+    }
     .cart{
         position: fixed;
         top: 50px;
+        bottom: 0;
         right: 0px;
-        background: #cccccc;
+        background: #f0f0f0;
         border: blueviolet 1px;
         border-radius: 3px;
         padding: 20px 10px;
+    }
+    .accordion-header::after{
+        content: '\0009 \2228';
+        color: #a05f5f;
+    }
+    .collapsed > .accordion-header::after{
+        content: ' \0009 \005E';
+        color: darkcyan;
     }
     .food_image{
         min-width: 100px;
@@ -27,32 +39,45 @@
         background-size: cover;"
     }
     .food_block{
-        width: 24%;
+        width: calc(24% - 5px);
         border: 1px solid #ccc;
         position: relative;
-        min-width: 300px;
+        min-width: 200px;
     }
     .food_category:nth-child(2n){
         background-color: rgba(150,150,150,0.1);
     }
     h1{
-        text-decoration: underline;
         text-transform: uppercase;
+        font-size: 4rem;
+
+    }
+    h5{
+        margin-top: 30px;
+        text-transform: uppercase;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        border-bottom: 1px solid #aaa;
+        color: #aaa;
     }
     .food_name{
-        font-size: 24px;
+        font-size: 20px;
         font-weight: 600;
     }
     .price{
-        font-size: 25px;
+        font-size: 32px;
         font-weight: 600;
         text-align: right;
+        color: #ddd;
     }
     em{
         position: absolute;
         bottom: 0;
         left: 10px;
         font-size: 12px;
+        opacity: 0.4;
     }
     #cart_order input{
         width: 40px;
@@ -64,10 +89,20 @@
         text-decoration: line-through red;
         opacity: 0.3;
     }
+    .cart_btn{
+        position: absolute;
+        bottom: 20px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-end;
+    }
+    .description{
+        margin-bottom: 4rem;
+    }
     </style>
     <script>
         function validate_count() {
-            console.log('workedd')
             $('input').each(function () {
                 if ($(this).val() == 0) {
                     console.log('if', $('input').val())
@@ -79,11 +114,21 @@
             })
 
         }
-
+        function cart_order_sum() {
+            let total = 0;
+            $('.cart_object').each(function() {
+                let price = $(this).find('.cart_food_price').text().trim();
+                let quantity = $(this).find("input").val()
+                total += parseFloat(price) * parseFloat(quantity);
+            });
+            $('#cart_summ_order').html(total)
+        }
         $(document).ready(function () {
+            cart_order_sum()
             $('.cart_add').click(function () {
                 let food_id = $(this).attr('food_id')
                 let food_name = $(this).attr('food_name')
+                let food_price = $(this).attr('food_price')
                 let container = $(this).parent('.cart_btn')
                 let count = container.children('input').val()
                 $('#cart_order').append(function () {
@@ -93,21 +138,25 @@
                         food_in_cart.val(new_quant).attr('type', 'number').attr('value', new_quant)
                         validate_count()
                     } else {
-                        $(this).append('<tr><td><span class="cart_food_name">' + food_name + '</span></td>' +
-                            '<td><input type="number" name="' + food_id + '" value="' + count + '"></td>' +
-                            '<td>&nbsp;<span class="deleting" name="' + food_id + '">x</span></td>' +
+                        $(this).append('<tr class="cart_object">' +
+                            '<td><span class="cart_food_name">' + food_name + '</span></td>' +
+                            '<td><span class="cart_food_price">' + food_price + '</span></td>' +
+                            '<td width="30px"><input type="number" name="' + food_id + '" value="' + count + '"></td>' +
+                            '<td width="10px">&nbsp;<span class="deleting" name="' + food_id + '">x</span></td>' +
                             '</tr>')
                     }
+                    cart_order_sum()
                 })
             })
             {#$('.deleting').click(function () {#}
             $('#cart_order').on('click', '.deleting', function(){
-                console.log('deliting click')
                 $('input[name="' + $(this).attr("name") + '"]').val(0).attr('value', 0)
                 validate_count()
+                cart_order_sum()
             })
             $('#cart_order').on('click', 'input', function () {
                 validate_count()
+                cart_order_sum()
             })
         });
     </script>
@@ -116,29 +165,43 @@
     <div style="height: 60px;">&nbsp;</div>
     <div class="w-100 d-flex flex-colomn">
 {#    <div class="col-1">&nbsp;</div>#}
-    <div class="col-10">
+    <div class="col-9">
         {% for provider in providers %}
             <div class="">
                 <h1 class="ml-5">{{ provider }}</h1>
                 <div class="accordion accordion-flush" id="accordionFlushFood">
                     {% for cat in provider.categorysfoods.all %}
                         {% if cat.foods.all %}
-                            <div class="w-100 mt-1 pl-5 p-2 food_category accordion-item">
-                                <a class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse_{{ provider |slugify }}_{{ forloop.counter }}" aria-expanded="false" aria-controls="flush-collapse_{{ provider|slugify }}_{{ forloop.counter }}">
-                                    <h2 class="accordion-header" id="flush-heading_{{ provider|slugify }}_{{ forloop.counter }}">{{ cat }}</h2>
-                                </a>
+                            <div class="w-100 mt-1 p-2 food_category accordion-item">
+                                <div class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                   data-bs-target="#flush-collapse_{{ provider |slugify }}_{{ forloop.counter }}" aria-expanded="false"
+                                   aria-controls="flush-collapse_{{ provider|slugify }}_{{ forloop.counter }}">
+
+                                    <h2 class="accordion-header  pl-5" id="flush-heading_{{ provider|slugify }}_{{ forloop.counter }}">{{ cat }}</h2>
+
+                                </div>
+
                                 <div id="flush-collapse_{{ provider|slugify }}_{{ forloop.counter }}" class="cat-container accordion-collapse collapse" aria-labelledby="flush-heading_{{ provider|slugify }}_{{ forloop.counter }}" data-bs-parent="#accordionFlushFood">
                                     {% for foo in cat.foods.all %}
                                         <div class="p-2 m-2 d-flex flex-row food_block">
-                                            <div class="food_image" style="background-image: url('{{ foo.image }}');">
-                                            </div>
+
                                             <div class="pl-1 w-100">
-                                                <p class="food_name"><a href="{{ foo.link }}">{{ foo.title }}</a></p>
-                                                <p>{{ foo.description }}. <br>Вага:{{ foo.weight }}</p>
-                                                <div class="price">{{ foo.price }} грн</div>
+                                                <p class="food_name"><a href="{{ foo.link }}" target="_blank">{{ foo.title }}</a></p>
+                                                <div class="d-flex flex-nowrap justify-content-between pb-2">
+                                                    <div class="food_image" style="background-image: url('{{ foo.image }}');"></div>
+                                                    <div class="price">{{ foo.price }} грн</div>
+                                                </div>
+                                                <p class="description">{{ foo.description }}. <br>
+                                                    {% if foo.weight %}Вага:{{ foo.weight }}{% endif %}
+                                                </p>
+
                                                 <div class="cart_btn m-2">
-                                                    <div class="btn btn-success cart_add" food_id="{{ foo.id }}" food_name="{{ foo.title }}">Add to cart </div>
                                                     <input class="w-25" type="number" value="1" >
+                                                    <div class="btn btn-success cart_add"
+                                                         food_id="{{ foo.id }}"
+                                                         food_price="{{ foo.price }}"
+                                                         food_name="{{ foo.title }}">
+                                                        Add to cart </div>
                                                 </div>
                                                 <em>last_update {{ foo.last_update }}</em>
                                             </div>
@@ -153,15 +216,16 @@
         {% endfor %}
     </div>
     <div class="col-3 cart">
-        <h4>Замовлення на: {{ order_day }}</h4>
+        <h5></span>Замовлення на:</span> <span>{{ order_day }}</span></h5>
         <form method="post" name="DTAA">
             {% csrf_token %}
             <input type="hidden" name="order_day" value="{{ order_day }}">
-            <table id="cart_order">
+            <table id="cart_order" width="100%">
             {% if ordered %}
                 {% for ord in ordered %}
-                    <tr>
+                    <tr class="cart_object">
                         <td><span class="cart_food_name{% if ord.payer %} text-success{% endif %}">{{ ord.food }}</span></td>
+                        <td><span class="cart_food_price{% if ord.payer %} text-success{% endif %}">{{ ord.food.price }}</span></td>
                         <td><input type="number" name="{{ ord.food.id }}" value="{{ ord.quantity }}"{% if ord.payer %}disabled {% endif %}></td>
                         <td>{% if ord.payer %}
                         {% else %}
@@ -171,7 +235,12 @@
                 {% endfor %}
             {% endif %}
             </table>
-             <input type="submit" value="Send order">
+            <div class="d-flex justify-content-between">
+                <input class="mt-4" type="submit" value="Send order">
+                <div class="align-content-end">
+                    Сумма: <span id="cart_summ_order">0</span> грн
+                </div>
+            </div>
         </form>
 
     </div>

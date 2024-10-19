@@ -7,17 +7,25 @@
             margin: auto;
         }
 
-        form p {
+        form {
             display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            flex-direction: column;
         }
-
-        p input {
-            flex: 1;
-            margin-left: 10px;
+        form p{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
         }
+        {#input {#}
+            {#flex: 1 !important;#}
+            {#margin-left: 10px;#}
+        {# }#}
 
         #login_button {
             margin: 20px 0 0 0;
+            width: 100%;
         }
 
         #reset_login {
@@ -45,11 +53,11 @@
     {% endif %}
     <div class="login-form">
         <form action="{% url 'login' %}" method="post">
-            {% for f in form %}
-                {{ f }}
-            {% endfor %}
-{#            {{ form.as_table }}#}
             {% csrf_token %}
+
+            {% for f in form %}
+                <p>{{ f.label }}&nbsp;{{ f }}</p>
+            {% endfor %}
             <input type="hidden" name="next" value="{{ next }}"/>
             <p><input id="login_button" type="submit" value="Увійти"></p>
         </form>

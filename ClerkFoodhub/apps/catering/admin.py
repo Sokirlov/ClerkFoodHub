@@ -26,14 +26,15 @@ class ProviderAdmin(admin.ModelAdmin):
 
 
 @admin.register(Food)
-# ---- category, title, description, price, buy_link, image, link, id_sort, is_active, date_add, last_update
 class FoodAdmin(admin.ModelAdmin):
-    list_display = ['id', 'food_image_tag', 'title', 'price', 'category', 'category_id', 'is_active', 'date_add', 'last_update']
+    list_display = ['id', 'food_image_tag', 'title', 'price', 'category',
+                    'category_id', 'is_active', 'date_add', 'last_update']
+    list_display_links = ['id', 'title']
     list_filter = ['category', 'is_active',]
     readonly_fields = ['food_image_tag', ]
 
+
 @admin.register(CategoryFood)
-# --- provider, title, identic, link, id_sort, (date_add)
 class CategoryFoodAdmin(admin.ModelAdmin):
     list_display = ['id', 'title', 'identic', 'id_sort', 'link',]
     list_editable = ['id_sort',]
