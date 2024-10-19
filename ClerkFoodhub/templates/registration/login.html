@@ -53,7 +53,7 @@
     {% endif %}
     <div class="login-form">
         <form action="{% url 'login' %}" method="post">
-            {% csrf_token %}
+{#            {% csrf_token %}#}
 
             {% for f in form %}
                 <p>{{ f.label }}&nbsp;{{ f }}</p>
