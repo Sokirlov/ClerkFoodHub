@@ -4,7 +4,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(__file__)
 sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
 # try:
-from . import config
+from .config import *
 # except ModuleNotFoundError:
 #     SECRET_KEY = 'scmr3w$$ibcuw-82+8l=ds*u9_4zz=8fd2^jn)#0&g=ta)o@sx'
 #     DEBUG = True
