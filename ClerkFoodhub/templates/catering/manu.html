@@ -9,24 +9,29 @@
         flex-wrap: wrap;
     }
     .accordion-item {
-        border: solid 1px #eee;
+        border-top: solid 1px #eee;
     }
+
     .cart{
         position: fixed;
         top: 50px;
         bottom: 0;
-        right: 0px;
-        background: #f0f0f0;
-        border: blueviolet 1px;
-        border-radius: 3px;
+        right: 0;
+        border-left: 1px solid #28a745;
         padding: 20px 10px;
     }
+    .accordion-header {
+        display: flex;
+        justify-content: space-between;
+    }
     .accordion-header::after{
-        content: '\0009 \2228';
+        {#content: '\0009 \2228';#}
+        content: ' \0009 \005E';
         color: #a05f5f;
     }
     .collapsed > .accordion-header::after{
-        content: ' \0009 \005E';
+        {#content: ' \0009 \005E';#}
+        content: '\0009 \2228';
         color: darkcyan;
     }
     .food_image{
@@ -39,18 +44,24 @@
         background-size: cover;"
     }
     .food_block{
-        width: calc(24% - 5px);
-        border: 1px solid #ccc;
+        width: calc(25% - 4px);
+        background-color: #fff;
+        border: 1px solid #dedede;
         position: relative;
         min-width: 200px;
+        margin: 2px;
     }
     .food_category:nth-child(2n){
+        background-color: #eee;
+    }
+    .accordion-header{
         background-color: rgba(150,150,150,0.1);
+        border-bottom: 1px solid #28a745;
     }
     h1{
         text-transform: uppercase;
         font-size: 4rem;
-
+        font-weight:600;
     }
     h5{
         margin-top: 30px;
@@ -59,12 +70,17 @@
         flex-direction: row;
         flex-wrap: nowrap;
         justify-content: space-between;
-        border-bottom: 1px solid #aaa;
+        border-bottom: 1px solid #28a745;
         color: #aaa;
     }
     .food_name{
         font-size: 20px;
         font-weight: 600;
+        line-height: 20px;
+        min-height: 50px;
+    }
+    .food_name a{
+        text-decoration: none;
     }
     .price{
         font-size: 32px;
@@ -99,6 +115,7 @@
     }
     .description{
         margin-bottom: 4rem;
+        color: #777;
     }
     </style>
     <script>
@@ -172,21 +189,19 @@
                 <div class="accordion accordion-flush" id="accordionFlushFood">
                     {% for cat in provider.categorysfoods.all %}
                         {% if cat.foods.all %}
-                            <div class="w-100 mt-1 p-2 food_category accordion-item">
+                            <div class="w-100 food_category accordion-item">
                                 <div class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                    data-bs-target="#flush-collapse_{{ provider |slugify }}_{{ forloop.counter }}" aria-expanded="false"
                                    aria-controls="flush-collapse_{{ provider|slugify }}_{{ forloop.counter }}">
-
-                                    <h2 class="accordion-header  pl-5" id="flush-heading_{{ provider|slugify }}_{{ forloop.counter }}">{{ cat }}</h2>
-
+                                    <h2 class="accordion-header  px-3 py-2" id="flush-heading_{{ provider|slugify }}_{{ forloop.counter }}"><span>{{ cat }}</span></h2>
                                 </div>
 
-                                <div id="flush-collapse_{{ provider|slugify }}_{{ forloop.counter }}" class="cat-container accordion-collapse collapse" aria-labelledby="flush-heading_{{ provider|slugify }}_{{ forloop.counter }}" data-bs-parent="#accordionFlushFood">
+                                <div id="flush-collapse_{{ provider|slugify }}_{{ forloop.counter }}"
+                                     class="cat-container p-1 accordion-collapse collapse" aria-labelledby="flush-heading_{{ provider|slugify }}_{{ forloop.counter }}" data-bs-parent="#accordionFlushFood">
                                     {% for foo in cat.foods.all %}
-                                        <div class="p-2 m-2 d-flex flex-row food_block">
-
+                                        <div class="p-2 d-flex flex-row food_block">
                                             <div class="pl-1 w-100">
-                                                <p class="food_name"><a href="{{ foo.link }}" target="_blank">{{ foo.title }}</a></p>
+                                                <div class="food_name"><a href="{{ foo.link }}" target="_blank">{{ foo.title }}</a></div>
                                                 <div class="d-flex flex-nowrap justify-content-between pb-2">
                                                     <div class="food_image" style="background-image: url('{{ foo.image }}');"></div>
                                                     <div class="price">{{ foo.price }} грн</div>
@@ -197,7 +212,7 @@
 
                                                 <div class="cart_btn m-2">
                                                     <input class="w-25" type="number" value="1" >
-                                                    <div class="btn btn-success cart_add"
+                                                    <div class="btn btn-outline-success cart_add"
                                                          food_id="{{ foo.id }}"
                                                          food_price="{{ foo.price }}"
                                                          food_name="{{ foo.title }}">
@@ -235,7 +250,7 @@
                 {% endfor %}
             {% endif %}
             </table>
-            <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-between mt-4">
                 <input class="mt-4" type="submit" value="Send order">
                 <div class="align-content-end">
                     Сумма: <span id="cart_summ_order">0</span> грн
