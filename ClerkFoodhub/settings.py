@@ -61,10 +61,10 @@ WSGI_APPLICATION = 'wsgi.application'
 DATABASES = {
     "default": {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.getenv('CLERK_DB_NAME'),
-        'USER': os.getenv('CLERK_DB_USER'),
-        'PASSWORD': os.getenv('CLERK_DB_PASSWORD'),
-        'HOST': os.getenv('CLERK_DB_URL'),
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_URL'),
         'PORT': 5432,
     }
 }
