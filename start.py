@@ -3,12 +3,12 @@ import sys
 import time
 import datetime
 import subprocess
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ClerkFoodhub.settings")
 import django
 
 django.setup()
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ClerkFoodhub.settings")
-
 sys.path.insert(0, os.getcwd())
+
 
 from django.core.management import call_command
 from django.contrib.auth import get_user_model
