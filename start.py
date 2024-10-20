@@ -64,7 +64,7 @@ def run_django():
 
 def add_users():
     try:
-        demo = os.getenv('CLERK_LOAD_DEMO_DATA')
+        demo = os.getenv('CLERK_LOAD_DEMO_DATA', True)
         if demo:
             call_command('loaddata', 'users')
             call_command('loaddata', 'cart')
